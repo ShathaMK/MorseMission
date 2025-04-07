@@ -8,13 +8,13 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "MorseMission",
+    name: "Morse Mission",
     platforms: [
         .iOS("16.0")
     ],
     products: [
         .iOSApplication(
-            name: "MorseMission",
+            name: "Morse Mission",
             targets: ["AppModule"],
             bundleIdentifier: "com.AppleAcademy.MorseMission",
             teamIdentifier: "5BDWVP493R",
@@ -44,7 +44,6 @@ let package = Package(
             path: ".",
             resources: [
                 .process("Resources")
-                
             ]
         )
     ]

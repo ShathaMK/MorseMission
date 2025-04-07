@@ -35,7 +35,8 @@ class MorseLettersViewModel: ObservableObject {
         MorseLettersModel (letter: "T", word: "Tape", imageName: "T_", morseCode: "-", soundFile: "T.mp3"),
         MorseLettersModel (letter: "U", word: "Unicorn", imageName: "U_", morseCode: "..-", soundFile: "U.mp3"),
         MorseLettersModel (letter: "V", word: "Vacuum", imageName: "V_", morseCode: "...-", soundFile: "V.mp3"),
-        MorseLettersModel (letter: "X", word: "X-ray", imageName: "V_", morseCode: "-..-", soundFile: "X.mp3"),
+        MorseLettersModel (letter: "W", word: "Wand", imageName: "W_", morseCode: ".--", soundFile: "W.mp3"),
+        MorseLettersModel (letter: "X", word: "X-ray", imageName: "X_", morseCode: "-..-", soundFile: "X.mp3"),
         MorseLettersModel (letter: "Y", word: "Yard", imageName: "Y_", morseCode: "-.--", soundFile: "Y.mp3"),
         MorseLettersModel (letter: "Z", word: "Zebra", imageName: "Z_", morseCode: "--..", soundFile: "Z.mp3"),
         ]

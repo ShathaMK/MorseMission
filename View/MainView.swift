@@ -46,7 +46,8 @@ struct MainView: View {
                 //                    .foregroundColor(.accentColor)
                 //                Text("Hello, world!")
             }//end of ZStack
-        }
-        .navigationBarHidden(true)        }
-    }
+        }.accentColor(Color("PurpleColor"))
+        .navigationBarHidden(true)
+    }// end of body
+    }// end of struct
 

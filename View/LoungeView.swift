@@ -435,7 +435,7 @@ struct LoungeView: View {
                                                 .frame(width:150,height: 50)
                                                 .cornerRadius(15)
 
-                                        Text("Go to Lounge") .font(.system(size: 20, weight: .bold, design: .rounded))
+                                        Text("Go to Stage") .font(.system(size: 20, weight: .bold, design: .rounded))
                                             .foregroundColor(Color("FontColor"))
                                        
                                          ////
