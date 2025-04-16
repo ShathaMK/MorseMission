@@ -78,6 +78,16 @@ struct AlphabetView: View {
             OnboardingView(showOnboarding: $showOnboarding)
                 .navigationBarHidden(true)
         }
+        .onAppear {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground()
+            appearance.backgroundColor = .clear
+            appearance.shadowColor = .clear
+
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        }
+
     }
 }
 
@@ -91,14 +101,16 @@ struct OnboardingView: View {
                            .edgesIgnoringSafeArea(.all)
                        
         VStack(spacing: 20) {
-            Text("A Timeless Form of Communication")
+            Text("Timeless Communication")
                 .font(.largeTitle)
                 .foregroundStyle(Color("FontColor"))
                 .bold()
-            Text("Have you ever wondered how we communicate with our phones, even across vast distances? Before texts and calls, how did people stay connected? \n \nLong ago, messages traveled by horses, ships, or even birds, but these methods had limitations in speed and distance.\n\nThat changed in 1838 when Samuel Morse invented Morse code, the first form of electric communication—a system of dots (.) and dashes (-) used to represent letters and words. To form sentences, slashes (/) indicate spaces between words.\n\nBeyond its historical importance, learning Morse code enhances brain function by strengthening language processing and memory skills—but in a much shorter time than learning a new spoken language. Studies show that Morse code improves cognitive flexibility and activates areas of the brain responsible for linguistic learning.\nReady to unlock this skill? Let s dive in! 🚀")
-                .foregroundStyle(Color("FontColor"))
-                .multilineTextAlignment(.center)
-                .padding()
+            ScrollView{
+                Text("Have you ever wondered how we communicate with our phones, even across vast distances? Before texts and calls, how did people stay connected? \n \nLong ago, messages traveled by horses, ships, or even birds, but these methods had limitations in speed and distance.\n\nThat changed in 1838 when Samuel Morse invented Morse code, the first form of electric communication—a system of dots (.) and dashes (-) used to represent letters and words. To form sentences, slashes (/) indicate spaces between words.\n\nBeyond its historical importance, learning Morse code enhances brain function by strengthening language processing and memory skills—but in a much shorter time than learning a new spoken language. Studies show that Morse code improves cognitive flexibility and activates areas of the brain responsible for linguistic learning.\nReady to unlock this skill? Let s dive in! 🚀")
+                    .foregroundStyle(Color("FontColor"))
+                    .multilineTextAlignment(.center)
+                    .padding()
+            }
             Button("Get Started") {
                 showOnboarding = false
             }
