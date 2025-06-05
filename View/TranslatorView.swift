@@ -155,7 +155,7 @@ struct TranslatorView: View {
                 .font(.system(size: 40, design: .rounded))
                 .foregroundColor(Color("FontColor"))
                 .overlay(content: {
-                    Button(action:{}){
+                    Button(action:{    TranslatorViewModel.playTranslation()}){
                         Image(systemName: "speaker.wave.3.fill")
                             .resizable()
                             .frame(width: 50, height: 40,alignment: .topTrailing)

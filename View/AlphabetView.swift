@@ -37,6 +37,7 @@ struct AlphabetView: View {
                         Text(letter.morseCode.wrappedValue)
                             .font(.system(size: 55, design: .rounded))
                             .foregroundStyle(Color("FontColor"))
+                         
                             .frame(width: 120, height: 45, alignment: .bottom)
                             .background(Color("WhiteGrayColor").opacity(0.1))
                             .cornerRadius(15)
