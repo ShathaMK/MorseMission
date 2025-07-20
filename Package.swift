@@ -18,7 +18,7 @@ let package = Package(
             targets: ["AppModule"],
             bundleIdentifier: "com.AppleAcademy.MorseMission",
             teamIdentifier: "5BDWVP493R",
-            displayVersion: "1.0",
+            displayVersion: "0.1.0",
             bundleVersion: "1",
             appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.pink),

@@ -49,13 +49,38 @@ struct FindSpyView: View {
                         .opacity(0.75)
                         .cornerRadius(35)
                         .overlay(){
+                            // "Next" Button
+                            VStack{
+                                Button(action: {
+                                    
+                                    viewModel.nextDialogue()
+                                    if viewModel.currentDialogueIndex + 2 < dialogues.count {
+                                        viewModel.currentDialogueIndex += 1
+                                    }
+                                    else {
+                                        viewModel.hideDialogues()
+                                    }
+                                }) {
+                                    Spacer()
+                                    Image("Next")//
+                                        .resizable()
+                                        .frame(width: 100, height: 40)
+                                    
+                                }
+                                .padding()
+                                .padding(.top,20)
+                                Spacer()
                             
+                            }
+                      
+                  
+                          
                             VStack(spacing:-20) {
                                 Spacer()
                                 //
-                                // "Next" Button
-                                
-                                
+                           
+                               
+                              
                                 // Loop through the dialogues within the range of startIndex and endIndex
                                 
                                 ForEach(startIndex...endIndex, id: \.self) { index in
@@ -121,22 +146,7 @@ struct FindSpyView: View {
                             
                         }
                     Spacer()
-                    Button(action: {
-                        
-                        viewModel.nextDialogue()
-                        if viewModel.currentDialogueIndex + 2 < dialogues.count {
-                            viewModel.currentDialogueIndex += 1
-                        }
-                        else {
-                            viewModel.hideDialogues()
-                        }
-                    }) {
-                        Spacer()
-                        Image("Next")//
-                            .resizable()
-                            .frame(width: 100, height: 40)
-                    }
-                    .padding()
+             
                     //  .padding(.bottom,200)
                     //  Spacer()//
                 }// end of VStack
@@ -463,9 +473,4 @@ struct FindSpyView: View {
 //
 
 
-// extension to get the screen width and height making it adaptive for all screen sizes
-extension View{
-   func getScreenBounds() -> CGRect{
-   return UIScreen.main.bounds
-   }
-}
+

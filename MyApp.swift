@@ -20,11 +20,17 @@ struct MyApp: App {
         )
         
 
-       
-          UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("PurpleColor"))
-          UISegmentedControl.appearance().tintColor = UIColor.white
+        // Set scroll indicator color to white
+        UIScrollView.appearance().indicatorStyle = .white
+        
+        // Set segement control apperance to purple for full customization
+        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("PurpleColor"))
+        UISegmentedControl.appearance().tintColor = UIColor.white
         let segmentedControl = UISegmentedControl(items: ["Encode", "Decode"])
         segmentedControl.frame = CGRect(x: 0, y: 0, width: 300, height:200 )
+  
+           
+
     }
 
 

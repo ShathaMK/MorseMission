@@ -50,7 +50,38 @@ struct LoungeView: View {
                         .opacity(0.75)
                         .cornerRadius(35)
                         .overlay(){
-                            
+                            VStack{
+                                Button(action: {
+                                    
+                                    let groupSize = (endIndex - startIndex) + 1
+                                    // If there are still more dialogues in the current scene
+                                    if viewModel.currentDialogueIndex + groupSize < dialogues.count {
+                                        viewModel.currentDialogueIndex += groupSize
+                                    } else {
+                                        // Finished the dialogues for the current scene
+                                        if viewModel.currentSceneIndex == 1 {
+                                            // Move to scene index 2 and reset dialogue index
+                                            viewModel.moveToScene(index: 2)
+                                        } else if viewModel.currentSceneIndex == 2 {
+                                            //if  no more dialogues in scene 2 hide the dialogue overlay
+                                            viewModel.hideDialogues()
+                                        }
+                                    }
+                                    
+                                    
+                                    
+                                    
+                                    
+                                }) {
+                                    Spacer()
+                                    Image("Next")//
+                                        .resizable()
+                                        .frame(width: 100, height: 40)
+                                }
+                                .padding()
+                                .padding(.top,20)
+                                Spacer()
+                            }
                             VStack(spacing:-20) {
                                 Spacer()
                                 //
@@ -123,34 +154,7 @@ struct LoungeView: View {
                             
                         }
                     Spacer()
-                    Button(action: {
-                        
-                        let groupSize = (endIndex - startIndex) + 1
-                         // If there are still more dialogues in the current scene
-                         if viewModel.currentDialogueIndex + groupSize < dialogues.count {
-                             viewModel.currentDialogueIndex += groupSize
-                         } else {
-                             // Finished the dialogues for the current scene
-                             if viewModel.currentSceneIndex == 1 {
-                                 // Move to scene index 2 and reset dialogue index
-                                 viewModel.moveToScene(index: 2)
-                             } else if viewModel.currentSceneIndex == 2 {
-                                 //if  no more dialogues in scene 2 hide the dialogue overlay
-                                 viewModel.hideDialogues()
-                             }
-                         }
-                     
-                    
-                                              
-                                           
-                       
-                    }) {
-                        Spacer()
-                        Image("Next")//
-                            .resizable()
-                            .frame(width: 100, height: 40)
-                    }
-                    .padding()
+   
                     //  .padding(.bottom,200)
                     //  Spacer()//
                 }// end of VStack

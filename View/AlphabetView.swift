@@ -71,19 +71,42 @@ struct AlphabetView: View {
                 .listRowBackground(Color("DarkGrayColor").opacity(0.5))
                 .cornerRadius(20)
             }
+            .scrollIndicators(.visible, axes: .vertical)
             .padding(.bottom, 20)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .scrollContentBackground(.hidden)
+            .navigationTitle("Alphabet Letters")
+            .navigationBarTitleDisplayMode(.large)
         }
-        .sheet(isPresented: $showOnboarding) {
+//              .toolbar(.visible, for: .navigationBar)
+//              .navigationBarTitleDisplayMode(.large)
+//
+//              .font(.largeTitle)
+//              .navigationTitle("Alphabet Letters")
+//              .foregroundStyle(Color("FontColor"))
+//             
+//        .toolbar {
+//            ToolbarItem(placement:.cancellationAction){
+//              Text("Alphabet letters")
+//                   .foregroundStyle(Color("FontColor"))
+//                  .font(.largeTitle)
+////
+//            }
+//        }
+        
+        .sheet(isPresented:
+                $showOnboarding) {
             OnboardingView(showOnboarding: $showOnboarding)
-                .navigationBarHidden(true)
+              .navigationBarHidden(true)
         }
         .onAppear {
             let appearance = UINavigationBarAppearance()
             appearance.configureWithTransparentBackground()
             appearance.backgroundColor = .clear
+
             appearance.shadowColor = .clear
+            appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(Color("FontColor"))]
+            appearance.titleTextAttributes = [.foregroundColor: UIColor(Color("FontColor"))]
 
             UINavigationBar.appearance().standardAppearance = appearance
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
@@ -127,3 +150,6 @@ struct OnboardingView: View {
 }
 
 
+#Preview{
+    AlphabetView()
+}
