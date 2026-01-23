@@ -38,6 +38,8 @@ struct MyApp: App {
     var body: some Scene{
         WindowGroup {
             MainView()
+                .background(Color.black.ignoresSafeArea())
+                           .preferredColorScheme(.dark) 
         }
    
     }

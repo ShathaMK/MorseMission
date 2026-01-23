@@ -24,9 +24,10 @@ struct FindSpyView: View {
 
     
     let morseCode = "...   .--.   -.--"
-    
+
 
     var body: some View {
+         OrientationDetector {
         var currentScene = viewModel.scenes[viewModel.currentSceneIndex]
         let dialogues = currentScene.dialogues // Get all dialogues for the current scene
         
@@ -39,12 +40,12 @@ struct FindSpyView: View {
             // Background
             Image(currentScene.backgroundImage)
                 .resizable()
-                .frame(width: getScreenBounds().width, height: getScreenBounds().height)
+                .scaledToFill().ignoresSafeArea()
             // Show dialogues if enabled
             if viewModel.isDialogueVisible{
                 VStack{
                     Rectangle()
-                        .frame(width: getScreenBounds().width,height: 280)
+                        .frame(width: .infinity,height: 280)
                         .foregroundStyle(Color("DarkGrayColor"))
                         .opacity(0.75)
                         .cornerRadius(35)
@@ -70,17 +71,17 @@ struct FindSpyView: View {
                                 .padding()
                                 .padding(.top,20)
                                 Spacer()
-                            
+                                
                             }
-                      
-                  
-                          
+                            
+                            
+                            
                             VStack(spacing:-20) {
                                 Spacer()
                                 //
-                           
-                               
-                              
+                                
+                                
+                                
                                 // Loop through the dialogues within the range of startIndex and endIndex
                                 
                                 ForEach(startIndex...endIndex, id: \.self) { index in
@@ -146,7 +147,7 @@ struct FindSpyView: View {
                             
                         }
                     Spacer()
-             
+                    
                     //  .padding(.bottom,200)
                     //  Spacer()//
                 }// end of VStack
@@ -270,184 +271,184 @@ struct FindSpyView: View {
                                     
                                 }
                                 .alert(isPresented: $showAlert) {
-                                            // Alert displayed with result
-                                            Alert(title: Text("Result"), message: Text(alertText), dismissButton: .default(Text("OK")) {
-                                                // When alert is dismissed, check if the answer was correct and show the result text
-                                                if isSelected2 {
-                                                    showDialouge = true
-                                                }
-                                            })
+                                    // Alert displayed with result
+                                    Alert(title: Text("Result"), message: Text(alertText), dismissButton: .default(Text("OK")) {
+                                        // When alert is dismissed, check if the answer was correct and show the result text
+                                        if isSelected2 {
+                                            showDialouge = true
                                         }
+                                    })
+                                }
                             }
-                            }
-                        
                     }
                     
-                    
-               //
                 }
-                if moveOn {
-                    if showDialouge{
-                        VStack{
-                            Rectangle()
-                                .frame(width:getScreenBounds().width,height: 238)
-                                .foregroundStyle(Color("DarkGrayColor"))
-                                .opacity(0.75)
-                                .cornerRadius(35)
-                                .overlay(){
-                                    ZStack() {
-                                        
-//                                        Button(action: viewModel.nextDialogue){
-//                                            Spacer()
-//                                            Image("Next").resizable()
-//                                                .frame(width: 100, height: 40)
-//                                            
-//                                        }.padding()
-//                                            .padding(.bottom,120)
-                                        Spacer()
-                                        HStack {
-                                            
-                                            HStack{
-                                                
-                                                Image("SparkProfile")
-                                                    .resizable()
-                                                    .frame(width: 140, height: 140)
-                                                    .padding(.trailing,20)
-                                                
-                                                HStack{
-                                                    
-                                                    VStack{
-                                                        
-                                                        Text("Detective Spark")
-                                                            .font(.system(size: 20, weight:
-                                                                    .bold, design: .rounded))
-                                                            .foregroundColor(Color("FontColor"))
-                                                            .padding(.trailing, 7)
-                                                        
-                                                        
-                                                        ZStack(alignment: .leading) {
-                                                            Text("Okay… that’s creepy.")
-                                                                .opacity(0) // Keeps space reserved to prevent movement
-                                                            TypeWriterEffect(text: "Okay… that’s creepy.")
-                                                        }
-                                                        
-                                                    }
-                                                    //
-                                                    //   .padding()
-                                                    // .padding(.trailing,60)
-                                                    .frame(width:230,height:100)
-                                                    
-                                                    
-                                                }
-                                                .background(Color("PurpleColor"))
-                                                .cornerRadius(15)
-                                                .overlay(alignment: .bottomLeading){
-                                                    Image(systemName:"arrowtriangle.down.fill")
-                                                        .font(.title)
-                                                        .rotationEffect(.degrees(90))
-                                                        .offset(x: -15, y: -10)
-                                                        .foregroundStyle(Color("PurpleColor"))
-                                                }
-                                                
-                                                
-                                            }
-                                            Spacer()
-                                        }.padding()
+                
+                
+                //
+            }
+            if moveOn {
+                if showDialouge{
+                    VStack{
+                        Rectangle()
+                            .frame(width:getScreenBounds().width,height: 238)
+                            .foregroundStyle(Color("DarkGrayColor"))
+                            .opacity(0.75)
+                            .cornerRadius(35)
+                            .overlay(){
+                                ZStack() {
+                                    
+                                    //                                        Button(action: viewModel.nextDialogue){
+                                    //                                            Spacer()
+                                    //                                            Image("Next").resizable()
+                                    //                                                .frame(width: 100, height: 40)
+                                    //
+                                    //                                        }.padding()
+                                    //                                            .padding(.bottom,120)
+                                    Spacer()
+                                    HStack {
                                         
                                         HStack{
                                             
-                                            Spacer()
+                                            Image("SparkProfile")
+                                                .resizable()
+                                                .frame(width: 140, height: 140)
+                                                .padding(.trailing,20)
                                             
                                             HStack{
                                                 
-                                                
                                                 VStack{
                                                     
-                                                    Text("Detective Flash")
+                                                    Text("Detective Spark")
                                                         .font(.system(size: 20, weight:
                                                                 .bold, design: .rounded))
                                                         .foregroundColor(Color("FontColor"))
-                                                        .padding(.trailing,360)
+                                                        .padding(.trailing, 7)
+                                                    
                                                     
                                                     ZStack(alignment: .leading) {
-                                                        Text("Someone wanted us to find this. We need to get to the lounge—maybe someone there knows more.")
+                                                        Text("Okay… that’s creepy.")
                                                             .opacity(0) // Keeps space reserved to prevent movement
-                                                        TypeWriterEffect(text:" Someone wanted us to find this. We need to get to the lounge—maybe someone\nthere knows more.")
+                                                        TypeWriterEffect(text: "Okay… that’s creepy.")
                                                     }
-                                                    //  Spacer()
-                                                    
-                                                    
                                                     
                                                 }
-                                                .padding()
-                                                //  .padding(.trailing,0)
-                                                .frame(width:550,height:100)
+                                                //
+                                                //   .padding()
+                                                // .padding(.trailing,60)
+                                                .frame(width:230,height:100)
                                                 
-                                            }//
-                                            .background(Color("DarkGrayColor"))
+                                                
+                                            }
+                                            .background(Color("PurpleColor"))
                                             .cornerRadius(15)
                                             .overlay(alignment: .bottomLeading){
                                                 Image(systemName:"arrowtriangle.down.fill")
                                                     .font(.title)
-                                                    .rotationEffect(.degrees(-90))
-                                                    .offset(x: 240, y: -10)
-                                                    .foregroundStyle(Color("DarkGrayColor"))
-                                                
-                                                //
+                                                    .rotationEffect(.degrees(90))
+                                                    .offset(x: -15, y: -10)
+                                                    .foregroundStyle(Color("PurpleColor"))
                                             }
-                                            Image("FlashProfile")
-                                                .resizable()
-                                                .frame(width: 140, height: 140)
-                                                .padding(.leading,20)
-                                        }.padding(.top,90)
-                                            .padding()
-                                //
-                                    }
-                                }
-                            Spacer()
-                        }// end of VStack
-                    }
-                    Button(action: {
-                        
-                    })
-                    {
-                        VStack{
-                            Spacer()
-                            HStack{
-                                Spacer()
-                               //
-                                    NavigationLink(destination: LoungeView(viewModel: viewModel)
-                                        .onAppear {
-                        
-                                              viewModel.moveToScene(index: 1)
-                                          
-                                          }){
-                                   
-                                     //   currentScene = 2 // Move to Scene 2
+                                            
+                                            
+                                        }
+                                        Spacer()
+                                    }.padding()
+                                    
+                                    HStack{
                                         
-
-                                        ZStack{
-                                            Rectangle().foregroundStyle(Color("PurpleColor"))
-                                                .frame(width:150,height: 50)
-                                                .cornerRadius(15)
-
+                                        Spacer()
+                                        
+                                        HStack{
+                                            
+                                            
+                                            VStack{
+                                                
+                                                Text("Detective Flash")
+                                                    .font(.system(size: 20, weight:
+                                                            .bold, design: .rounded))
+                                                    .foregroundColor(Color("FontColor"))
+                                                    .padding(.trailing,360)
+                                                
+                                                ZStack(alignment: .leading) {
+                                                    Text("Someone wanted us to find this. We need to get to the lounge—maybe someone there knows more.")
+                                                        .opacity(0) // Keeps space reserved to prevent movement
+                                                    TypeWriterEffect(text:" Someone wanted us to find this. We need to get to the lounge—maybe someone\nthere knows more.")
+                                                }
+                                                //  Spacer()
+                                                
+                                                
+                                                
+                                            }
+                                            .padding()
+                                            //  .padding(.trailing,0)
+                                            .frame(width:550,height:100)
+                                            
+                                        }//
+                                        .background(Color("DarkGrayColor"))
+                                        .cornerRadius(15)
+                                        .overlay(alignment: .bottomLeading){
+                                            Image(systemName:"arrowtriangle.down.fill")
+                                                .font(.title)
+                                                .rotationEffect(.degrees(-90))
+                                                .offset(x: 240, y: -10)
+                                                .foregroundStyle(Color("DarkGrayColor"))
+                                            
+                                            //
+                                        }
+                                        Image("FlashProfile")
+                                            .resizable()
+                                            .frame(width: 140, height: 140)
+                                            .padding(.leading,20)
+                                    }.padding(.top,90)
+                                        .padding()
+                                    //
+                                }
+                            }
+                        Spacer()
+                    }// end of VStack
+                }
+                Button(action: {
+                    
+                })
+                {
+                    VStack{
+                        Spacer()
+                        HStack{
+                            Spacer()
+                            //
+                            NavigationLink(destination: LoungeView(viewModel: viewModel)
+                                .onAppear {
+                                    
+                                    viewModel.moveToScene(index: 1)
+                                    
+                                }){
+                                    
+                                    //   currentScene = 2 // Move to Scene 2
+                                    
+                                    
+                                    ZStack{
+                                        Rectangle().foregroundStyle(Color("PurpleColor"))
+                                            .frame(width:150,height: 50)
+                                            .cornerRadius(15)
+                                        
                                         Text("Go to Lounge") .font(.system(size: 20, weight: .bold, design: .rounded))
                                             .foregroundColor(Color("FontColor"))
-                                           
-                                         
-                                           
+                                        
+                                        
+                                        
                                     }
-                                                        
+                                    
                                 }
-                                    .padding()
-                                
-                            }
+                                .padding()
+                            
                         }
                     }
                 }
-           //
-            }.navigationBarHidden(true)
-            
+            }
+            //
+        }.navigationBarHidden(true)
+    }.background(Color.black.ignoresSafeArea())
         }
     
     private func checkAnswer() {

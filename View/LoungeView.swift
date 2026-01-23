@@ -28,6 +28,7 @@ struct LoungeView: View {
     
 
     var body: some View {
+        OrientationDetector {
         let currentScene = viewModel.scenes[viewModel.currentSceneIndex]
         let dialogues = currentScene.dialogues// Get all dialogues for the current scene
         
@@ -154,7 +155,7 @@ struct LoungeView: View {
                             
                         }
                     Spacer()
-   
+                    
                     //  .padding(.bottom,200)
                     //  Spacer()//
                 }// end of VStack
@@ -203,7 +204,7 @@ struct LoungeView: View {
                     }.padding()
                     Spacer()
                     Spacer()
-                
+                    
                     Button(action:{
                         isClueFound.toggle()
                     }){
@@ -218,6 +219,7 @@ struct LoungeView: View {
                                 VStack{
                                     Text("FIND ME")
                                         .font(.system(size: 50, weight: .bold, design: .rounded))
+                                        
                                     VStack(spacing:-40){
                                         Text("-------------")   .font(.system(size: 40, weight: .thin, design: .rounded))
                                         Text("-------------")   .font(.system(size: 40, weight: .thin, design: .rounded))
@@ -283,180 +285,180 @@ struct LoungeView: View {
                                         Text("-------------")   .font(.system(size: 40, weight: .thin, design: .rounded))
                                         Text("-------------")   .font(.system(size: 40, weight: .thin, design: .rounded))
                                     }
-                                }
+                                }.foregroundStyle(Color("DarkGrayColor"))
                                 .alert(isPresented: $showAlert) {
-                                            // Alert displayed with result
-                                            Alert(title: Text("Result"), message: Text(alertText), dismissButton: .default(Text("OK")) {
-                                                // When alert is dismissed, check if the answer was correct and show the result text
-                                                if isSelected {
-                                                    showDialouge = true
-                                                }
-                                            })
+                                    // Alert displayed with result
+                                    Alert(title: Text("Result"), message: Text(alertText), dismissButton: .default(Text("OK")) {
+                                        // When alert is dismissed, check if the answer was correct and show the result text
+                                        if isSelected {
+                                            showDialouge = true
                                         }
+                                    })
+                                }
                             }
-                            }
-                        
                     }
                     
-                    
-               //
                 }
-                if moveOn {
-                    if showDialouge{
-                        VStack{
-                            Rectangle()
-                                .frame(width:getScreenBounds().width,height: 238)
-                                .foregroundStyle(Color("DarkGrayColor"))
-                                .opacity(0.75)
-                                .cornerRadius(35)
-                                .overlay(){
-                                    ZStack() {
-                                        
-//                                        Button(action: viewModel.nextDialogue){
-//                                            Spacer()
-//                                            Image("Next").resizable()
-//                                                .frame(width: 100, height: 40)
-//
-//                                        }.padding()
-//                                            .padding(.bottom,120)
-                                        Spacer()
-                                        HStack {
-                                            
-                                            HStack{
-                                                
-                                                Image("SparkProfile")
-                                                    .resizable()
-                                                    .frame(width: 140, height: 140)
-                                                    .padding(.trailing,20)
-                                                
-                                                HStack{
-                                                    
-                                                    VStack{
-                                                        
-                                                        Text("Detective Spark")
-                                                            .font(.system(size: 20, weight:
-                                                                    .bold, design: .rounded))
-                                                            .foregroundColor(Color("FontColor"))
-                                                            .padding(.trailing, 7)
-                                                        
-                                                        
-                                                        ZStack(alignment: .leading) {
-                                                            Text("We need to hurry up.")
-                                                                .opacity(0) // Keeps space reserved to prevent movement
-                                                            TypeWriterEffect(text: "We need to hurry up.")
-                                                        }
-                                                        
-                                                    }
-                                                    //
-                                                    //   .padding()
-                                                    // .padding(.trailing,60)
-                                                    .frame(width:230,height:100)
-                                                    
-                                                    
-                                                }
-                                                .background(Color("PurpleColor"))
-                                                .cornerRadius(15)
-                                                .overlay(alignment: .bottomLeading){
-                                                    Image(systemName:"arrowtriangle.down.fill")
-                                                        .font(.title)
-                                                        .rotationEffect(.degrees(90))
-                                                        .offset(x: -15, y: -10)
-                                                        .foregroundStyle(Color("PurpleColor"))
-                                                }
-                                                
-                                                
-                                            }
-                                            Spacer()
-                                        }.padding()
+                
+                
+                //
+            }
+            if moveOn {
+                if showDialouge{
+                    VStack{
+                        Rectangle()
+                            .frame(width:getScreenBounds().width,height: 238)
+                            .foregroundStyle(Color("DarkGrayColor"))
+                            .opacity(0.75)
+                            .cornerRadius(35)
+                            .overlay(){
+                                ZStack() {
+                                    
+                                    //                                        Button(action: viewModel.nextDialogue){
+                                    //                                            Spacer()
+                                    //                                            Image("Next").resizable()
+                                    //                                                .frame(width: 100, height: 40)
+                                    //
+                                    //                                        }.padding()
+                                    //                                            .padding(.bottom,120)
+                                    Spacer()
+                                    HStack {
                                         
                                         HStack{
                                             
-                                            Spacer()
+                                            Image("SparkProfile")
+                                                .resizable()
+                                                .frame(width: 140, height: 140)
+                                                .padding(.trailing,20)
                                             
                                             HStack{
                                                 
-                                                
                                                 VStack{
                                                     
-                                                    Text("Detective Flash")
+                                                    Text("Detective Spark")
                                                         .font(.system(size: 20, weight:
                                                                 .bold, design: .rounded))
                                                         .foregroundColor(Color("FontColor"))
-                                                        .padding(.trailing,360)
+                                                        .padding(.trailing, 7)
+                                                    
                                                     
                                                     ZStack(alignment: .leading) {
-                                                        Text("The event is about to start. Lets check the stage.")
+                                                        Text("We need to hurry up.")
                                                             .opacity(0) // Keeps space reserved to prevent movement
-                                                        TypeWriterEffect(text:" The event is about to start. Lets check the stage.")
+                                                        TypeWriterEffect(text: "We need to hurry up.")
                                                     }
-                                                    //  Spacer()
-                                                    
-                                                    
                                                     
                                                 }
-                                                .padding()
-                                                //  .padding(.trailing,0)
-                                                .frame(width:550,height:100)
+                                                //
+                                                //   .padding()
+                                                // .padding(.trailing,60)
+                                                .frame(width:230,height:100)
                                                 
-                                            }//
-                                            .background(Color("DarkGrayColor"))
+                                                
+                                            }
+                                            .background(Color("PurpleColor"))
                                             .cornerRadius(15)
                                             .overlay(alignment: .bottomLeading){
                                                 Image(systemName:"arrowtriangle.down.fill")
                                                     .font(.title)
-                                                    .rotationEffect(.degrees(-90))
-                                                    .offset(x: 240, y: -10)
-                                                    .foregroundStyle(Color("DarkGrayColor"))
-                                                
-                                                //
+                                                    .rotationEffect(.degrees(90))
+                                                    .offset(x: -15, y: -10)
+                                                    .foregroundStyle(Color("PurpleColor"))
                                             }
-                                            Image("FlashProfile")
-                                                .resizable()
-                                                .frame(width: 140, height: 140)
-                                                .padding(.leading,20)
-                                        }.padding(.top,90)
-                                            .padding()
-                                        
-                                    }
-                                }
-                            Spacer()
-                        }// end of VStack
-                   
-                 
-                        VStack{
-                            Spacer()
-                            HStack{
-                                Spacer()
-                               //
-                                NavigationLink(destination: StageView()
-                                  ){
-                                   
-                                     //   currentScene = 2 // Move to Scene 2
-                                    //TrackScene = .stage
+                                            
+                                            
+                                        }
+                                        Spacer()
+                                    }.padding()
                                     
-                                        ZStack{
-                                            Rectangle().foregroundStyle(Color("PurpleColor"))
-                                                .frame(width:150,height: 50)
-                                                .cornerRadius(15)
-
-                                        Text("Go to Stage") .font(.system(size: 20, weight: .bold, design: .rounded))
-                                            .foregroundColor(Color("FontColor"))
-                                       
-                                         ////
-                                           
-                                    }
-                                                        
+                                    HStack{
+                                        
+                                        Spacer()
+                                        
+                                        HStack{
+                                            
+                                            
+                                            VStack{
+                                                
+                                                Text("Detective Flash")
+                                                    .font(.system(size: 20, weight:
+                                                            .bold, design: .rounded))
+                                                    .foregroundColor(Color("FontColor"))
+                                                    .padding(.trailing,360)
+                                                
+                                                ZStack(alignment: .leading) {
+                                                    Text("The event is about to start. Lets check the stage.")
+                                                        .opacity(0) // Keeps space reserved to prevent movement
+                                                    TypeWriterEffect(text:" The event is about to start. Lets check the stage.")
+                                                }
+                                                //  Spacer()
+                                                
+                                                
+                                                
+                                            }
+                                            .padding()
+                                            //  .padding(.trailing,0)
+                                            .frame(width:550,height:100)
+                                            
+                                        }//
+                                        .background(Color("DarkGrayColor"))
+                                        .cornerRadius(15)
+                                        .overlay(alignment: .bottomLeading){
+                                            Image(systemName:"arrowtriangle.down.fill")
+                                                .font(.title)
+                                                .rotationEffect(.degrees(-90))
+                                                .offset(x: 240, y: -10)
+                                                .foregroundStyle(Color("DarkGrayColor"))
+                                            
+                                            //
+                                        }
+                                        Image("FlashProfile")
+                                            .resizable()
+                                            .frame(width: 140, height: 140)
+                                            .padding(.leading,20)
+                                    }.padding(.top,90)
+                                        .padding()
+                                    
                                 }
-                                    .padding()
+                            }
+                        Spacer()
+                    }// end of VStack
+                    
+                    
+                    VStack{
+                        Spacer()
+                        HStack{
+                            Spacer()
+                            //
+                            NavigationLink(destination: StageView()
+                            ){
+                                
+                                //   currentScene = 2 // Move to Scene 2
+                                //TrackScene = .stage
+                                
+                                ZStack{
+                                    Rectangle().foregroundStyle(Color("PurpleColor"))
+                                        .frame(width:150,height: 50)
+                                        .cornerRadius(15)
+                                    
+                                    Text("Go to Stage") .font(.system(size: 20, weight: .bold, design: .rounded))
+                                        .foregroundColor(Color("FontColor"))
+                                    
+                                    ////
+                                    
+                                }
                                 
                             }
+                            .padding()
+                            
                         }
-                      
-                    }//
-                }
-           //
-            }.navigationBarHidden(true)
-            
+                    }
+                    
+                }//
+            }
+            //
+        }.navigationBarHidden(true)
+    }
         }
     
     private func checkAnswer() {

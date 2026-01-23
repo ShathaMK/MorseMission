@@ -16,51 +16,57 @@ struct AlphabetView: View {
             
             List($viewModel.letters) { letter in
                 VStack {
-                    HStack {
-                        // Image and Morse Code Column
-                        VStack {
-                            Image(letter.imageName.wrappedValue)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 100)
-                                .cornerRadius(10)
-                            
-                            Text(letter.word.wrappedValue)
-                                .font(.system(.title, design: .rounded))
-                                .foregroundStyle(Color("FontColor"))
-                                .padding(.top, 5)
-                        }
-                        .padding(.leading, 10)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                       
-                        // Morse Code Text
-                        Text(letter.morseCode.wrappedValue)
-                            .font(.system(size: 55, design: .rounded))
-                            .foregroundStyle(Color("FontColor"))
-                         
-                            .frame(width: 120, height: 45, alignment: .bottom)
-                            .background(Color("WhiteGrayColor").opacity(0.1))
-                            .cornerRadius(15)
-                            .padding(.horizontal, 10)
-                        
+                    HStack() {
                         Spacer()
-                        
-                        // Speaker Button
-                        Button(action: {
-                            viewModel.playSound(for: letter.soundFile.wrappedValue)
-                        }) {
-                            Image(systemName: "speaker.wave.3.fill")
-                                .resizable()
-                                .frame(width: 35, height: 25)
-                                .foregroundColor(Color("PurpleColor"))
-                                .padding(11)
+                        HStack {
+                            // Letter image under it is Letter word
+                            VStack {
+                                Image(letter.imageName.wrappedValue)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 100)
+                                    .cornerRadius(10)
+                                VStack{
+                                    Text(letter.word.wrappedValue)
+                                        .font(.system(.title, design: .rounded))
+                                        .foregroundStyle(Color("FontColor"))
+                                        .padding(.top, 5)
+                                }
+                            }
+                            .padding(.leading, 10)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            // Morse Code Text
+                            Text(letter.morseCode.wrappedValue)
+                                .font(.system(size: 55, design: .rounded))
+                                .foregroundStyle(Color("FontColor"))
+                            
+                                .frame(width: 120, height: 45, alignment: .bottom)
                                 .background(Color("WhiteGrayColor").opacity(0.1))
                                 .cornerRadius(15)
-                                .shadow(radius: 5)
+                                .padding(.horizontal, 10)
+                            
+                            Spacer()
+                            
+                            // Speaker Button
+                            Button(action: {
+                                viewModel.playSound(for: letter.soundFile.wrappedValue)
+                            }) {
+                                Image(systemName: "speaker.wave.3.fill")
+                                    .resizable()
+                                    .frame(width: 35, height: 25)
+                                    .foregroundColor(Color("PurpleColor"))
+                                    .padding(11)
+                                    .background(Color("WhiteGrayColor").opacity(0.1))
+                                    .cornerRadius(15)
+                                    .shadow(radius: 5)
+                            }
+                            .contentShape(Rectangle())
+                            .frame(width: 50, height: 50)
+                            .padding(.trailing, 10)
                         }
-                        .contentShape(Rectangle())
-                        .frame(width: 50, height: 50)
-                        .padding(.trailing, 10)
+                        Spacer()
+
                     }
                     Divider()
                         .background(Color("WhiteGrayColor")).opacity(0.3)

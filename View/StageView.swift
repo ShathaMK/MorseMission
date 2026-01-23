@@ -14,6 +14,7 @@ struct StageView: View {
     @State private var currentAnswerTim2: String = ""
 //
     var body: some View {
+        OrientationDetector {
         ZStack{
             //Spacer()
             if !ShowQuestions{
@@ -149,123 +150,123 @@ struct StageView: View {
                         .opacity(0.75)
                         .cornerRadius(35)
                         .overlay(){
-                          
-                                Spacer()
-                                VStack(spacing: -50){
-                                   
-                                    HStack(alignment: .center,spacing: 50){//
-                                        Spacer()
-                                        Spacer()
-                                        Spacer()
-                                        Spacer()
-                                        Spacer()
-                                        Text("Who is the real Tim Cook ?")  .font(.system(size: 40, weight: .bold, design: .rounded))
-                                            .foregroundColor(Color("FontColor"))
-                                        Spacer()
-                                        Spacer()
-                                        Button(action:{})
-                                        {
-                                         //   Spacer()
-                                            NavigationLink(destination: VotingView()){
-                                                ZStack{
-                                                    Rectangle().foregroundStyle(Color("YellowColor")).opacity(0.9)
-                                                        .frame(width:120,height: 50)
-                                                        .cornerRadius(15)
-                                                    
-                                                    Text("Vote")
-                                                        .font(.system(size: 30, weight: .bold, design: .rounded))
-                                                        .foregroundColor(.black)
-                                                    
-                                                }
-                                                
-                                            }
-                                            
-                                            
-                                        }.padding()
-                                        Spacer()
-                                    }
-                                       
+                            
+                            Spacer()
+                            VStack(spacing: -50){
+                                
+                                HStack(alignment: .center,spacing: 50){//
                                     Spacer()
-                                    
-                                  Spacer()
-                                    HStack(spacing:20){
-                                        Spacer()
-                                        Button(action:{
-                                            // Clear previous answers
-                                               currentAnswerTim1 = ""
-                                               currentAnswerTim2 = ""
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                                currentAnswerTim1 = "I was backstage, preparing my keynote presentation."
-                                                currentAnswerTim2 = "I was rehearsing in the main hall."
-                                            }
-                                        })
-                                        {
-                                       
-                                                ZStack{
-                                                    Rectangle().foregroundStyle(Color("PurpleColor"))
-                                                        .frame(width:420,height: 50)
-                                                        .cornerRadius(15)
-                                                    
-                                                    Text("Where were you before coming on stage?") .font(.system(size: 20, weight: .bold, design: .rounded))
-                                                        .foregroundColor(Color("FontColor"))
-                                                }
+                                    Spacer()
+                                    Spacer()
+                                    Spacer()
+                                    Spacer()
+                                    Text("Who is the real Tim Cook ?")  .font(.system(size: 40, weight: .bold, design: .rounded))
+                                        .foregroundColor(Color("FontColor"))
+                                    Spacer()
+                                    Spacer()
+                                    Button(action:{})
+                                    {
+                                        //   Spacer()
+                                        NavigationLink(destination: VotingView()){
+                                            ZStack{
+                                                Rectangle().foregroundStyle(Color("YellowColor")).opacity(0.9)
+                                                    .frame(width:120,height: 50)
+                                                    .cornerRadius(15)
                                                 
-                                            
-                                       
-                                        }
-                                        Button(action:{
-                                            // Clear previous answers
-                                               currentAnswerTim1 = ""
-                                               currentAnswerTim2 = ""
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                                currentAnswerTim1 = "Actually, it all began with the Apple I."
-                                                currentAnswerTim2 = "Uh... the first Apple product was the Macintosh, right?"
+                                                Text("Vote")
+                                                    .font(.system(size: 30, weight: .bold, design: .rounded))
+                                                    .foregroundColor(.black)
+                                                
                                             }
                                             
-                                        })
-                                        {
-                                       
-                                                ZStack{
-                                                    Rectangle().foregroundStyle(Color("PurpleColor"))
-                                                        .frame(width:300,height: 50)
-                                                        .cornerRadius(15)
-                                                    
-                                                    Text("What’s Apple first product ?") .font(.system(size: 20, weight: .bold, design: .rounded))
-                                                        .foregroundColor(Color("FontColor"))
-                                                }
-                                                
-                                            
-                                       
-                                        }
-                                        Button(action:{
-                                            // Clear previous answers
-                                               currentAnswerTim1 = ""
-                                               currentAnswerTim2 = ""
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                                currentAnswerTim1 = "Our latest product is the Iphone 16e."
-                                                currentAnswerTim2 = "I can't say much, but I've heard it's not like any other phone."
-                                            }
-                                        })
-                                        {
-                                       
-                                                ZStack{
-                                                    Rectangle().foregroundStyle(Color("PurpleColor"))
-                                                        .frame(width:300,height: 50)
-                                                        .cornerRadius(15)
-                                                    
-                                                    Text("What’s Apple latest product ?") .font(.system(size: 20, weight: .bold, design: .rounded))
-                                                        .foregroundColor(Color("FontColor"))
-                                                }
-                                                
-                                            
-                                       
                                         }
                                         
-                                        Spacer()
-                                    }
+                                        
+                                    }.padding()
                                     Spacer()
                                 }
-                               
+                                
+                                Spacer()
+                                
+                                Spacer()
+                                HStack(spacing:20){
+                                    Spacer()
+                                    Button(action:{
+                                        // Clear previous answers
+                                        currentAnswerTim1 = ""
+                                        currentAnswerTim2 = ""
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                                            currentAnswerTim1 = "I was backstage, preparing my keynote presentation."
+                                            currentAnswerTim2 = "I was rehearsing in the main hall."
+                                        }
+                                    })
+                                    {
+                                        
+                                        ZStack{
+                                            Rectangle().foregroundStyle(Color("PurpleColor"))
+                                                .frame(width:420,height: 50)
+                                                .cornerRadius(15)
+                                            
+                                            Text("Where were you before coming on stage?") .font(.system(size: 20, weight: .bold, design: .rounded))
+                                                .foregroundColor(Color("FontColor"))
+                                        }
+                                        
+                                        
+                                        
+                                    }
+                                    Button(action:{
+                                        // Clear previous answers
+                                        currentAnswerTim1 = ""
+                                        currentAnswerTim2 = ""
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                                            currentAnswerTim1 = "Actually, it all began with the Apple I."
+                                            currentAnswerTim2 = "Uh... the first Apple product was the Macintosh, right?"
+                                        }
+                                        
+                                    })
+                                    {
+                                        
+                                        ZStack{
+                                            Rectangle().foregroundStyle(Color("PurpleColor"))
+                                                .frame(width:300,height: 50)
+                                                .cornerRadius(15)
+                                            
+                                            Text("What’s Apple first product ?") .font(.system(size: 20, weight: .bold, design: .rounded))
+                                                .foregroundColor(Color("FontColor"))
+                                        }
+                                        
+                                        
+                                        
+                                    }
+                                    Button(action:{
+                                        // Clear previous answers
+                                        currentAnswerTim1 = ""
+                                        currentAnswerTim2 = ""
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                                            currentAnswerTim1 = "Our latest product is the iPhone Air."
+                                            currentAnswerTim2 = "I can't say much, but I've heard it's not like any other phone."
+                                        }
+                                    })
+                                    {
+                                        
+                                        ZStack{
+                                            Rectangle().foregroundStyle(Color("PurpleColor"))
+                                                .frame(width:300,height: 50)
+                                                .cornerRadius(15)
+                                            
+                                            Text("What’s Apple latest product ?") .font(.system(size: 20, weight: .bold, design: .rounded))
+                                                .foregroundColor(Color("FontColor"))
+                                        }
+                                        
+                                        
+                                        
+                                    }
+                                    
+                                    Spacer()
+                                }
+                                Spacer()
+                            }
+                            
                             
                         }
                 }
@@ -273,7 +274,7 @@ struct StageView: View {
                 if !currentAnswerTim1.isEmpty || !currentAnswerTim2.isEmpty {
                     ZStack {
                         Spacer()
-                    Spacer()
+                        Spacer()
                         HStack(spacing: -10) {
                             Spacer()
                             HStack {
@@ -341,14 +342,16 @@ struct StageView: View {
                         }
                     }
                 }
-
+                
                 Spacer()
             }
+            
         }.navigationBarHidden(true)
             .background( Image("StageAllCharacters")
                 .resizable()
                 .frame(width: getScreenBounds().width, height: getScreenBounds().height).ignoresSafeArea())
             .padding(.top,10)
+    }
     }
 }
 struct StageView_previews: PreviewProvider {
