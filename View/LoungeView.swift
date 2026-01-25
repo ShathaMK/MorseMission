@@ -46,7 +46,8 @@ struct LoungeView: View {
             if viewModel.isDialogueVisible{
                 VStack{
                     Rectangle()
-                        .frame(width: getScreenBounds().width,height: 280)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 280)  // ✅ CORRECT
                         .foregroundStyle(Color("DarkGrayColor"))
                         .opacity(0.75)
                         .cornerRadius(35)
@@ -306,8 +307,10 @@ struct LoungeView: View {
             if moveOn {
                 if showDialouge{
                     VStack{
+               
                         Rectangle()
-                            .frame(width:getScreenBounds().width,height: 238)
+                            .frame(maxWidth: .infinity)
+                            .frame( height: 238)
                             .foregroundStyle(Color("DarkGrayColor"))
                             .opacity(0.75)
                             .cornerRadius(35)
@@ -482,7 +485,6 @@ struct LoungeView: View {
 
 
 //
-
 
 
 

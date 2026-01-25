@@ -40,12 +40,12 @@ struct FindSpyView: View {
             // Background
             Image(currentScene.backgroundImage)
                 .resizable()
-                .scaledToFill().ignoresSafeArea()
-            // Show dialogues if enabled
+                .frame(width: getScreenBounds().width, height: getScreenBounds().height)            // Show dialogues if enabled
             if viewModel.isDialogueVisible{
                 VStack{
+             
                     Rectangle()
-                        .frame(width: .infinity,height: 280)
+                        .frame(width: getScreenBounds().width, height: 280)  //
                         .foregroundStyle(Color("DarkGrayColor"))
                         .opacity(0.75)
                         .cornerRadius(35)
@@ -290,8 +290,9 @@ struct FindSpyView: View {
             if moveOn {
                 if showDialouge{
                     VStack{
+                  
                         Rectangle()
-                            .frame(width:getScreenBounds().width,height: 238)
+                            .frame(width: getScreenBounds().width, height: 238)  // Same as LoungeView
                             .foregroundStyle(Color("DarkGrayColor"))
                             .opacity(0.75)
                             .cornerRadius(35)
@@ -407,44 +408,43 @@ struct FindSpyView: View {
                             }
                         Spacer()
                     }// end of VStack
-                }
-                Button(action: {
-                    
-                })
-                {
-                    VStack{
-                        Spacer()
-                        HStack{
+         
+                        VStack{
                             Spacer()
-                            //
-                            NavigationLink(destination: LoungeView(viewModel: viewModel)
-                                .onAppear {
-                                    
-                                    viewModel.moveToScene(index: 1)
-                                    
-                                }){
-                                    
-                                    //   currentScene = 2 // Move to Scene 2
-                                    
-                                    
-                                    ZStack{
-                                        Rectangle().foregroundStyle(Color("PurpleColor"))
-                                            .frame(width:150,height: 50)
-                                            .cornerRadius(15)
+                            HStack{
+                                Spacer()
+                                //
+                                NavigationLink(destination: LoungeView(viewModel: viewModel)
+                                    .onAppear {
                                         
-                                        Text("Go to Lounge") .font(.system(size: 20, weight: .bold, design: .rounded))
-                                            .foregroundColor(Color("FontColor"))
+                                        viewModel.moveToScene(index: 1)
+                                        
+                                    }){
+                                        
+                                        //   currentScene = 2 // Move to Scene 2
                                         
                                         
+                                        ZStack{
+                                            Rectangle().foregroundStyle(Color("PurpleColor"))
+                                                .frame(width:150,height: 50)
+                                                .cornerRadius(15)
+                                            
+                                            Text("Go to Lounge") .font(.system(size: 20, weight: .bold, design: .rounded))
+                                                .foregroundColor(Color("FontColor"))
+                                            
+                                            
+                                            
+                                        }
                                         
                                     }
                                     
-                                }
-                                .padding()
+                                    .padding()
+                            }
                             
                         }
-                    }
+                 
                 }
+               
             }
             //
         }.navigationBarHidden(true)
