@@ -193,6 +193,7 @@ struct LoungeView: View {
                             // Spacer()
                             Button(action:{
                                 isHintVisible.toggle()
+                                
                             }){
                                 Image(systemName: "lightbulb.max.fill")
                                     .resizable()
@@ -208,6 +209,7 @@ struct LoungeView: View {
                     
                     Button(action:{
                         isClueFound.toggle()
+                        SoundManager.shared.playSound(named: "Receipt")
                     }){
                         Image("SmallBill").resizable().frame(width: 29,height: 69)
                     }.padding(.top,331)
@@ -465,11 +467,13 @@ struct LoungeView: View {
         }
     
     private func checkAnswer() {
-        if isSelected { // Spy is the correct answer
+        if isSelected { // Blue is the correct answer
+            SoundManager.shared.playSound(named: "correct")
             alertText = "Correct answer! \nYou unlocked the Second clue."
             moveOn = true
            
         } else {
+            SoundManager.shared.playSound(named: "incorrect")
             alertText = "Incorrect answer \n Please try again."
         }
         showAlert = true // Show the alert

@@ -199,10 +199,11 @@ struct FindSpyView: View {
                     
                     Button(action:{
                         isClueFound.toggle()
+                        SoundManager.shared.playSound(named: "StickyNote")
                     }){
-                        Image("StickyNote").resizable().frame(width: 27.50,height: 22)
-                    }.padding(.top,110)
-                        .padding(.leading,490)
+                        Image("StickyNote").resizable().frame(width: 35,height: 30)
+                    }.padding(.top,121)
+                        .padding(.leading,660)
                     if isClueFound{
                         Rectangle()
                             .frame(width:440,height: 440)
@@ -249,6 +250,7 @@ struct FindSpyView: View {
                                         }
                                     SelectButton(isSelected: $isSelected2, color: Color("PurpleColor") , text: "Spy")
                                         .onTapGesture {
+                                            
                                             isSelected2.toggle()
                                             if isSelected2{
                                                 // So one button selected at a time
@@ -453,10 +455,12 @@ struct FindSpyView: View {
     
     private func checkAnswer() {
         if isSelected2 { // Spy is the correct answer
+            SoundManager.shared.playSound(named: "correct")
             alertText = "Correct answer! \nYou unlocked the first clue."
             moveOn = true
            
         } else {
+            SoundManager.shared.playSound(named: "incorrect")
             alertText = "Incorrect answer \n Please try again."
         }
         showAlert = true // Show the alert

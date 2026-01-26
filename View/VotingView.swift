@@ -49,12 +49,15 @@ struct VotingView: View {
                             
                         }
                     } else if lose{
+                        
                         //
+                        
                         Color.red.opacity(0.3).ignoresSafeArea()
                         VStack(spacing:50){
                             Image("Lose").resizable().frame(width: 500, height: 200)
                             Text(RevealText).font(.system(size: 30, weight: .medium, design: .rounded))
                                 .foregroundColor(Color("FontColor"))
+
                             Button(action:{})
                             {
                              //   Spacer()
@@ -144,9 +147,12 @@ struct VotingView: View {
     private func checkAnswer() {
         //  Tim cook 1 is the real one
         if isSelected {
+            SoundManager.shared.playSound(named: "Alphabet")
+
             RevealText = "You caught the spy and saved the event 🚀"
             win = true
         } else {
+            SoundManager.shared.playSound(named: "SOS")
             RevealText = "Hard luck, Please try again 😞."
             lose = true
         }
