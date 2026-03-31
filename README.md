@@ -48,7 +48,6 @@ Type a message to encode it, or receive a transmission and decode it back.
 **🕵️ Level 3 — Get on the Mission. Find the Spy.**
 A spy is hiding at WWDC25 — use everything you've learned to catch them.
 
-> *Did you find the spy? Come find me and let's connect!*
 
 ---
 
@@ -65,6 +64,8 @@ A spy is hiding at WWDC25 — use everything you've learned to catch them.
 ## 👩🏻‍💻 Lets Connect
 
 Hello world, I'm **Shatha** — an iOS developer from Saudi Arabia 🇸🇦. Morse Mission was my WWDC25 Swift Student Challenge submission. 🎉
+
+> *Did you find the spy? Come find me and let's connect!*
 
 [![LinkedIn](https://img.shields.io/badge/Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/shatha-almukhaylid/)
 
