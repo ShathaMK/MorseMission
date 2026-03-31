@@ -4,11 +4,11 @@
 //
 //  Created by Shatha Almukhaild on 07/08/1447 AH.
 //
-
 import AVFoundation
 
+@MainActor
 class SoundManager {
-    @MainActor static let shared = SoundManager()
+    static let shared = SoundManager()
     
     private var players: [String: AVAudioPlayer] = [:]
     
@@ -26,5 +26,15 @@ class SoundManager {
         } catch {
             print("Error playing sound: \(error.localizedDescription)")
         }
+    }
+    
+    func stopSound(named soundName: String) {
+        players[soundName]?.stop()
+        players[soundName] = nil
+    }
+    
+    func stopAllSounds() {
+        players.values.forEach { $0.stop() }
+        players.removeAll()
     }
 }

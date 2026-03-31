@@ -10,10 +10,13 @@ import SwiftUI
 // extension to get the screen width and height making it adaptive for all screen sizes
 extension View {
     func getScreenBounds() -> CGRect {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else {
-            return UIScreen.main.bounds
+        // For iOS 15+, use proper window scene access
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            if let window = windowScene.windows.first(where: { $0.isKeyWindow }) {
+                return window.bounds
+            }
         }
-        return window.frame
+        // Fallback
+        return UIScreen.main.bounds
     }
 }

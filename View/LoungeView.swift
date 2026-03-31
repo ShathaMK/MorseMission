@@ -48,9 +48,8 @@ struct LoungeView: View {
                     Rectangle()
                         .frame(maxWidth: .infinity)
                         .frame(height: 280)  // ✅ CORRECT
-                        .foregroundStyle(Color("DarkGrayColor"))
-                        .opacity(0.75)
-                        .cornerRadius(35)
+                        .dialogueGlassEffect()
+                        .ignoresSafeArea(edges: .top)
                         .overlay(){
                             VStack{
                                 Button(action: {
@@ -309,13 +308,17 @@ struct LoungeView: View {
             if moveOn {
                 if showDialouge{
                     VStack{
-               
+                      
+                           
+                              
+                           
                         Rectangle()
                             .frame(maxWidth: .infinity)
                             .frame( height: 238)
-                            .foregroundStyle(Color("DarkGrayColor"))
-                            .opacity(0.75)
-                            .cornerRadius(35)
+                            
+                            .dialogueGlassEffect()
+                   
+                            .ignoresSafeArea(edges: .top)
                             .overlay(){
                                 ZStack() {
                                     

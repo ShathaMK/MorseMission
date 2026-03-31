@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var viewModel = GameViewModel()
-    @State private var orientation = UIDeviceOrientation.unknown
+    @State private var isLandscape = false
+
     
     var body: some View {
         ZStack{
@@ -17,7 +18,7 @@ struct MainView: View {
                 ZStack {
                     Color("BackgroundColor").ignoresSafeArea()
                     
-                    if orientation.isLandscape || orientation.isFlat || orientation == .unknown {
+                    if isLandscape{
                         // Landscape - layout with dialogue
                         VStack(spacing: 60) {
                             HStack{
@@ -100,10 +101,25 @@ struct MainView: View {
             .navigationBarHidden(true)
         }
         .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
-            orientation = UIDevice.current.orientation
+            let newOrientation = UIDevice.current.orientation
+            
+            // IGNORE flat positions - keep current state
+            if newOrientation == .faceUp || newOrientation == .faceDown || newOrientation == .unknown {
+                return
+            }
+            
+            // Only update for valid rotations
+            if newOrientation == .landscapeLeft || newOrientation == .landscapeRight {
+                isLandscape = true
+            } else if newOrientation == .portrait || newOrientation == .portraitUpsideDown {
+                isLandscape = false
+            }
         }
         .onAppear {
-            orientation = UIDevice.current.orientation
+            // Check initial orientation from interface
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                isLandscape = scene.interfaceOrientation.isLandscape
+            }
         }
     }
 }

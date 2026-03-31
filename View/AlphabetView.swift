@@ -68,10 +68,10 @@ struct AlphabetView: View {
                         Spacer()
 
                     }
-                    Divider()
-                        .background(Color("WhiteGrayColor")).opacity(0.3)
-                        .frame(width: 730, height: 1)
-                        .padding(.vertical, 5)
+//                    Divider()
+//                        .background(Color("WhiteGrayColor")).opacity(0.3)
+//                        .frame(width: 730, height: 1)
+//                        .padding(.vertical, 5)
                 }
                 .padding(.vertical, 5)
                 .listRowBackground(Color("DarkGrayColor").opacity(0.5))
