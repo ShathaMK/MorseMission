@@ -6,9 +6,9 @@
 
 [![WWDC25](https://img.shields.io/badge/WWDC25-Swift%20Student%20Challenge-F05138?style=for-the-badge&logo=swift&logoColor=white)](https://developer.apple.com/wwdc25/)
 [![Accepted](https://img.shields.io/badge/Status-Winner%20✓-4CAF50?style=for-the-badge)](#)
-[![Platform](https://img.shields.io/badge/iPadOS-0A84FF?style=for-the-badge&logo=apple&logoColor=white)](#)
 
-An iPad app that teaches Morse Code to beginners through a spy-themed mini game — built for the Apple WWDC25 Swift Student Challenge.
+
+An app that teaches Morse Code to beginners through a spy-themed mini game — built for the Apple WWDC25 Swift Student Challenge.
 
 </div>
 
