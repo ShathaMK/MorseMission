@@ -46,7 +46,7 @@ Browse the full Morse Code alphabet and tap letters to hear their sound.
 Type a message to encode it, or receive a transmission and decode it back.
 
 **🕵️ Level 3 — Get on the Mission. Find the Spy.**
-A spy is hiding at WWDC25 — use everything you've learned to catch them.
+A spy is hiding at WWDC25 — use everything you've learned to catch the spy.
 
 
 ---
