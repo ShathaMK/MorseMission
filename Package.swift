@@ -18,13 +18,12 @@ let package = Package(
             targets: ["AppModule"],
             bundleIdentifier: "com.AppleAcademy.MorseMission",
             teamIdentifier: "5BDWVP493R",
-            displayVersion: "0.2.0",
+            displayVersion: "0.4.0",
             bundleVersion: "1",
             appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.pink),
             supportedDeviceFamilies: [
-                .pad,
-                .phone
+                .pad
             ],
             supportedInterfaceOrientations: [
                 .portrait,
