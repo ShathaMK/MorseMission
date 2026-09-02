@@ -31,8 +31,8 @@ class GameViewModel: ObservableObject {
         Scenes(
             backgroundImage:"Lounge With Characters",
             dialogues: [
-                    Dialogues(speakerPfp: "FStaffProfile",speaker: "Yomna (Staff 1)", text: "Tim dodged my question about the new iPhone. That’s not like him.", bubbleColor: Color("LightBrownColor"),isRight: false),
-                    Dialogues(speakerPfp: "MStaffProfile" ,speaker: "Mansour (Staff 2)", text: "He even forgot Apple’s mission statement. Something’s off.", bubbleColor: Color("BabyBlueColor"),isRight: true),
+                    Dialogues(speakerPfp: "FStaffProfile",speaker: "Staff 1", text: "Tim dodged my question about the new iPhone. That’s not like him.", bubbleColor: Color("LightBrownColor"),isRight: false),
+                    Dialogues(speakerPfp: "MStaffProfile" ,speaker: "Staff 2", text: "He even forgot Apple’s mission statement. Something’s off.", bubbleColor: Color("BabyBlueColor"),isRight: true),
                
                 ]//
         ),
@@ -40,9 +40,9 @@ class GameViewModel: ObservableObject {
             backgroundImage:"Lounge With Characters 2",
             dialogues: [
                 Dialogues(speakerPfp: "SparkProfile",speaker: "Detective Spark", text: "What do you mean, forgot?", bubbleColor: Color("PurpleColor"),isRight: false),
-                    Dialogues(speakerPfp: "MStaffProfile" ,speaker: "Mansour (Staff 2)", text: "Someone asked, and he just mumbled nonsense. Like he was making it up on the spot.", bubbleColor: Color("BabyBlueColor"),isRight: true),
+                    Dialogues(speakerPfp: "MStaffProfile" ,speaker: "Staff 2", text: "Someone asked, and he just mumbled nonsense. Like he was making it up on the spot.", bubbleColor: Color("BabyBlueColor"),isRight: true),
                 Dialogues(speakerPfp: "FlashPfpRight" ,speaker: "Detective Flash", text: "Did he seem nervous?", bubbleColor: Color("DarkGrayColor"),isRight: false),
-                    Dialogues(speakerPfp: "FStaffPfpRight",speaker: "Yomna (Staff 1)", text: "Now that you mention it… yeah. Almost like he was faking it. ", bubbleColor: Color("LightBrownColor"),isRight: true)
+                    Dialogues(speakerPfp: "FStaffPfpRight",speaker: "Staff 1", text: "Now that you mention it… yeah. Almost like he was faking it. ", bubbleColor: Color("LightBrownColor"),isRight: true)
                   
                 ]
         )
