@@ -9,120 +9,228 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var viewModel = GameViewModel()
-    @State private var isLandscape = false
+    //@State private var isLandscape = false
 
     
     var body: some View {
         ZStack{
-            NavigationStack{
-                ZStack {
-                    Color("BackgroundColor").ignoresSafeArea()
-                    
-                    if isLandscape{
-                        // Landscape - layout with dialogue
-                        VStack(spacing: 60) {
-                            HStack{
-                                Image("SparkProfile").resizable().frame(width: 180, height: 180)
-                                
-                                // Dialogue Box for Landscape
-                                DialogueBox(
-                                    title: "Hello Detective 🕵️‍♂️",
-                                    text: "Your mission: master Morse code to crack the case. Dots and dashes will help you uncover hidden messages and catch the imposter lurking in the shadows.\nThe fate of WWDC25 is in your hands. Are you ready to begin? 🔍"
-                                )
+            GeometryReader {geo in
+                
+                let isLandscape = geo.size.width > geo.size.height
+                
+                
+                NavigationStack{
+                    ZStack {
+                        Color("BackgroundColor").ignoresSafeArea()
+                        
+                        if isLandscape{
+                            landscapeLayout(geo:geo)
+                            //                            // Landscape - layout with dialogue
+                            //                            VStack(spacing: 60) {
+                            //                                HStack{
+                            //                                    Image("SparkProfile").resizable().frame(width: 180, height: 180)
+                            //
+                            //                                    // Dialogue Box for Landscape
+                            //                                    DialogueBox(
+                            //                                        title: "Hello Detective 🕵️‍♂️",
+                            //                                        text: "Your mission: master Morse code to crack the case. Dots and dashes will help you uncover hidden messages and catch the imposter lurking in the shadows.\nThe fate of WWDC25 is in your hands. Are you ready to begin? 🔍"
+                            //                                    )
+                            //
+                            //                                    .frame(width: 805, height: 200)
+                            //                                }
+                            //
+                            //                                HStack(spacing:120) {
+                            //                                    Spacer()
+                            //                                    NavigationLink(destination: AlphabetView()){
+                            //                                        Image("Level1").resizable().frame(width: 250,height: 450)
+                            //                                    }
+                            //                                    NavigationLink(destination: TranslatorView()){
+                            //                                        Image("Level3").resizable().frame(width: 250,height: 450)
+                            //                                    }
+                            //                                    NavigationLink(destination: FindSpyView(viewModel:viewModel)){
+                            //                                        Image("Level2").resizable().frame(width: 250,height: 450)
+                            //                                    }
+                            //                                    Spacer()
+                            //                                }
+                            //                                Spacer()
+                            //                            }
+                        } else {
+                            // Portrait - vertical stack
+                            portraitLayout(geo:geo)
+                            //                            ScrollView {
+                            //                                VStack(spacing: 50) {
+                            //                                    HStack(spacing: 10) {
+                            //                                        Spacer()
+                            //                                        Image("SparkProfile")
+                            //                                            .resizable()
+                            //                                            .frame(width: 200, height: 200)
+                            //
+                            //                                        // Dialogue Box for Portrait
+                            //                                        DialogueBox(
+                            //                                            title: "Hello Detective 🕵️‍♂️",
+                            //                                            text: "Your mission: master Morse code to crack the case. Dots and dashes will help you uncover hidden messages and catch the imposter lurking in the shadows.The fate of WWDC25 is in your hands. Are you ready to begin? 🔍"
+                            //                                        )
+                            //
+                            //                                        .frame(maxWidth: 500, maxHeight: 400)
+                            //                                        Spacer()
+                            //                                    }
+                            //                                    .padding(.top, 60)
+                            //
+                            //                                    LazyVGrid(columns: [
+                            //                                        GridItem(.flexible()),
+                            //                                        GridItem(.flexible())
+                            //                                    ], spacing: 80) {
+                            //                                        NavigationLink(destination: AlphabetView()){
+                            //                                            Image("Level1")
+                            //                                                .resizable()
+                            //                                                .frame(width: 280, height: 400)
+                            //                                        }
+                            //
+                            //                                        NavigationLink(destination: TranslatorView()){
+                            //                                            Image("Level3")
+                            //                                                .resizable()
+                            //                                                .frame(width: 280, height: 400)
+                            //                                        }
+                            //
+                            //                                        NavigationLink(destination: FindSpyView(viewModel: viewModel)){
+                            //                                            Image("Level2")
+                            //                                                .resizable()
+                            //                                                .frame(width: 280, height: 400)
+                            //                                        }
+                            //                                    }
+                            //                                    .padding(.horizontal, 20)                            }
+                            //                                .frame(maxWidth: .infinity)
+                            //                            }
+                        }// end of else
+                    }// end of ZStack
+                }// End of NavigationStack
+                .accentColor(Color("PurpleColor"))
+                .navigationBarHidden(true)
+                
+            }// End of Geometry reader
+        }// End of ZStack
+    }//end of body view
+        
+        // MARK: - Landscape
+        @ViewBuilder
+        private func landscapeLayout(geo: GeometryProxy) -> some View {
+            ScrollView {
+                VStack(spacing: 30) {
 
-                                    .frame(width: 805, height: 200)
-                            }
-                            
-                            HStack(spacing:120) {
-                                Spacer()
-                                NavigationLink(destination: AlphabetView()){
-                                    Image("Level1").resizable().frame(width: 250,height: 450)
-                                }
-                                NavigationLink(destination: TranslatorView()){
-                                    Image("Level3").resizable().frame(width: 250,height: 450)
-                                }
-                                NavigationLink(destination: FindSpyView(viewModel:viewModel)){
-                                    Image("Level2").resizable().frame(width: 250,height: 450)
-                                }
-                                Spacer()
-                            }
-                            Spacer()
-                        }
-                    } else {
-                        // Portrait - vertical stack
-                        ScrollView {
-                            VStack(spacing: 50) {
-                                HStack(spacing: 10) {
-                                    Spacer()
-                                    Image("SparkProfile")
-                                        .resizable()
-                                        .frame(width: 200, height: 200)
-                                    
-                                    // Dialogue Box for Portrait
-                                    DialogueBox(
-                                        title: "Hello Detective 🕵️‍♂️",
-                                        text: "Your mission: master Morse code to crack the case. Dots and dashes will help you uncover hidden messages and catch the imposter lurking in the shadows.The fate of WWDC25 is in your hands. Are you ready to begin? 🔍"
-                                    )
+                    HStack {
+                        Image("SparkProfile")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: min(geo.size.width * 0.14, 140))
 
-                                        .frame(maxWidth: 500, maxHeight: 400)
-                                    Spacer()
-                                }
-                                .padding(.top, 60)
-                                
-                                LazyVGrid(columns: [
-                                    GridItem(.flexible()),
-                                    GridItem(.flexible())
-                                ], spacing: 80) {
-                                    NavigationLink(destination: AlphabetView()){
-                                        Image("Level1")
-                                            .resizable()
-                                            .frame(width: 280, height: 400)
-                                    }
-                                    
-                                    NavigationLink(destination: TranslatorView()){
-                                        Image("Level3")
-                                            .resizable()
-                                            .frame(width: 280, height: 400)
-                                    }
-                                    
-                                    NavigationLink(destination: FindSpyView(viewModel: viewModel)){
-                                        Image("Level2")
-                                            .resizable()
-                                            .frame(width: 280, height: 400)
-                                    }
-                                }
-                                .padding(.horizontal, 20)                            }
-                            .frame(maxWidth: .infinity)
-                        }
-                    }
-                }
-            }
-            .accentColor(Color("PurpleColor"))
-            .navigationBarHidden(true)
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
-            let newOrientation = UIDevice.current.orientation
-            
-            // IGNORE flat positions - keep current state
-            if newOrientation == .faceUp || newOrientation == .faceDown || newOrientation == .unknown {
-                return
-            }
-            
-            // Only update for valid rotations
-            if newOrientation == .landscapeLeft || newOrientation == .landscapeRight {
-                isLandscape = true
-            } else if newOrientation == .portrait || newOrientation == .portraitUpsideDown {
-                isLandscape = false
-            }
-        }
-        .onAppear {
-            // Check initial orientation from interface
-            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                isLandscape = scene.interfaceOrientation.isLandscape
-            }
-        }
-    }
-}
+                        DialogueBox(
+                            title: "Hello Detective 🕵️‍♂️",
+                            text: "Your mission: master Morse code to crack the case. Dots and dashes will help you uncover hidden messages and catch the imposter lurking in the shadows.\nThe fate of WWDC25 is in your hands. Are you ready to begin? 🔍"
+                        )
+                        .frame(width: min(geo.size.width * 0.65, 700))
+
+                    } // end of HStack (image + dialogue)
+
+                    HStack(spacing: geo.size.width * 0.03) {
+                        levelButton("Level1", destination: AlphabetView(), geo: geo)
+                        levelButton("Level3", destination: TranslatorView(), geo: geo)
+                        levelButton("Level2", destination: FindSpyView(viewModel: viewModel), geo: geo)
+                    } // end of HStack (level buttons)
+
+                } // end of VStack (landscape content)
+                .padding()
+                .frame(minHeight: geo.size.height)
+            } // end of ScrollView
+        } // end of landscapeLayout
+        
+        // MARK: - Portrait
+         @ViewBuilder
+         private func portraitLayout(geo: GeometryProxy) -> some View {
+             ScrollView {
+                 VStack(spacing: 40) {
+
+                     HStack(spacing: 10) {
+                         Image("SparkProfile")
+                             .resizable()
+                             .scaledToFit()
+                             .frame(width: geo.size.width * 0.22)
+
+                         DialogueBox(
+                             title: "Hello Detective 🕵️‍♂️",
+                             text: "Your mission: master Morse code to crack the case. Dots and dashes will help you uncover hidden messages and catch the imposter lurking in the shadows. The fate of WWDC25 is in your hands. Are you ready to begin? 🔍"
+                         )
+                         .frame(maxWidth: geo.size.width * 0.6)
+
+                     } // end of HStack (image + dialogue)
+                     .padding(.top, 40)
+                     .padding(.horizontal, 20)
+
+                     LazyVGrid(
+                         columns: [GridItem(.flexible()), GridItem(.flexible())],
+                         spacing: 40
+                     ) {
+                         levelImage("Level1", destination: AlphabetView(), geo: geo)
+                         levelImage("Level3", destination: TranslatorView(), geo: geo)
+                         levelImage("Level2", destination: FindSpyView(viewModel: viewModel), geo: geo)
+                     } // end of LazyVGrid
+                     .padding(.horizontal, 20)
+
+                 } // end of VStack (portrait content)
+                 .frame(maxWidth: .infinity)
+             } // end of ScrollView
+         } // end of portraitLayout
+
+        // MARK: - Reusable pieces
+        @ViewBuilder
+        private func levelButton<Destination: View>(
+            _ imageName: String, destination: Destination, geo: GeometryProxy
+        ) -> some View {
+            NavigationLink(destination: destination) {
+                Image(imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: min(geo.size.width * 0.18, 220))
+            } // end of NavigationLink
+        } // end of levelButton
+
+        @ViewBuilder
+        private func levelImage<Destination: View>(
+            _ imageName: String, destination: Destination, geo: GeometryProxy
+        ) -> some View {
+            NavigationLink(destination: destination) {
+                Image(imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: geo.size.width * 0.4)
+            } // end of NavigationLink
+        } // end of levelImage
+
+    } // end of MainView
+
+
+//        .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+//            let newOrientation = UIDevice.current.orientation
+//            
+//            // IGNORE flat positions - keep current state
+//            if newOrientation == .faceUp || newOrientation == .faceDown || newOrientation == .unknown {
+//                return
+//            }
+//            
+//            // Only update for valid rotations
+//            if newOrientation == .landscapeLeft || newOrientation == .landscapeRight {
+//                isLandscape = true
+//            } else if newOrientation == .portrait || newOrientation == .portraitUpsideDown {
+//                isLandscape = false
+//            }
+//        }
+//        .onAppear {
+//            // Check initial orientation from interface
+//            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+//                isLandscape = scene.interfaceOrientation.isLandscape
+//            }
+        
+
+//}
 
 // Dialogue Box Component - with speech bubble arrow
 // Dialogue Box Component
@@ -171,5 +279,16 @@ struct SpeechBubbleTail: Shape {
         path.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
         path.closeSubpath()
         return path
+    }
+}
+
+struct MainView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainView()
+        .previewDevice("iPhone 17 pro")
+        MainView()
+            .previewDevice("iPad Air 11-inch")
+        MainView()
+        .previewDevice("iPad Air 13-inch")
     }
 }
