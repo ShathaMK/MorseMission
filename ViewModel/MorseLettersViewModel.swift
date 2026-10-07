@@ -22,7 +22,7 @@ class MorseLettersViewModel: ObservableObject {
         MorseLettersModel (letter: "F", word:" Firetruck", imageName: "F_",morseCode: "..-.", soundFile: "F.mp3"),
         MorseLettersModel (letter: "G", word: "Giraffe", imageName: "G_", morseCode: "--.", soundFile: "G.mp3"),
         MorseLettersModel (letter: "H", word: "Hippo", imageName: "H_", morseCode: "....", soundFile: "H.mp3"),
-        MorseLettersModel (letter: "I", word: "Iphone", imageName: "I_", morseCode: "..", soundFile: "I.mp3"),
+        MorseLettersModel (letter: "I", word: "Iron", imageName: "I_", morseCode: "..", soundFile: "I.mp3"),
         MorseLettersModel (letter: "J", word: "Jellyfish", imageName: "J_", morseCode: ".---", soundFile: "J.mp3"),
         MorseLettersModel (letter: "K", word: "Kite", imageName: "K_", morseCode: "-.-", soundFile: "K.mp3"),
         MorseLettersModel (letter: "L", word: "Laboratory", imageName: "L_", morseCode: ".-..", soundFile: "L.mp3"),

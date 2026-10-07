@@ -125,7 +125,7 @@ struct MainView: View {
 
                         DialogueBox(
                             title: "Hello Detective 🕵️‍♂️",
-                            text: "Your mission: master Morse code to crack the case. Dots and dashes will help you uncover hidden messages and catch the imposter lurking in the shadows.\nThe fate of WWDC25 is in your hands. Are you ready to begin? 🔍"
+                            text: "Your mission: master Morse code to crack the case. Dots and dashes will help you uncover hidden messages and catch the imposter lurking in the shadows.\nThe fate of DevSummit is in your hands. Are you ready to begin? 🔍"
                         )
                         .frame(width: min(geo.size.width * 0.65, 700))
 
@@ -157,7 +157,7 @@ struct MainView: View {
 
                          DialogueBox(
                              title: "Hello Detective 🕵️‍♂️",
-                             text: "Your mission: master Morse code to crack the case. Dots and dashes will help you uncover hidden messages and catch the imposter lurking in the shadows. The fate of WWDC25 is in your hands. Are you ready to begin? 🔍"
+                             text: "Your mission: master Morse code to crack the case. Dots and dashes will help you uncover hidden messages and catch the imposter lurking in the shadows. The fate of DevSummit is in your hands. Are you ready to begin? 🔍"
                          )
                          .frame(maxWidth: geo.size.width * 0.6)
 

@@ -5,13 +5,26 @@
 //  Created by Shatha Almukhaild on 23/08/1446 AH.
 //
 import AVFoundation
-@MainActor
 
+@MainActor
 class MorseSoundPlayer {
-    var audioPlayer: AVAudioPlayer?
+    private var audioPlayer: AVAudioPlayer?
+
+    init() {
+        configureAudioSession()
+    }
+
+    private func configureAudioSession() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("❌ Failed to set up audio session: \(error)")
+        }
+    }
 
     func playMorse(for text: String, speedMultiplier: Double = 1.0) {
-        let characters = Array(text.uppercased()) // Convert text to uppercase letters
+        let characters = Array(text.uppercased())
         playNextLetter(in: characters, speedMultiplier: speedMultiplier)
     }
 
@@ -19,30 +32,31 @@ class MorseSoundPlayer {
         guard index < characters.count else { return } // Stop when finished
 
         let char = characters[index]
-        let fileName = "\(char).mp3" // Assuming sounds are named like "A.mp3", "B.mp3"
+        let fileName = "\(char).mp3" // Expecting files named "A.mp3", "B.mp3", "1.mp3", etc.
 
-        if let _ = Bundle.main.url(forResource: fileName, withExtension: nil) {
-            playSound(for: fileName)
-        }
+        playSound(for: fileName)
 
         // Adjust delay between letters using the speed multiplier
-        let delay = 0.5 / speedMultiplier // Default speed is 0.5 seconds between characters
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            self.playNextLetter(in: characters, index: index + 1, speedMultiplier: speedMultiplier)
+        let delay = 0.5 / speedMultiplier
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+            self?.playNextLetter(in: characters, index: index + 1, speedMultiplier: speedMultiplier)
         }
     }
 
     private func playSound(for fileName: String) {
         guard let url = Bundle.main.url(forResource: fileName, withExtension: nil) else {
-            print("❌ Sound file not found: \(fileName)")
+            print("❌ Sound file not found in bundle: \(fileName)")
             return
         }
-        print("✅ Playing: \(fileName)")
+
         do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.play()
+            let player = try AVAudioPlayer(contentsOf: url)
+            player.prepareToPlay()
+            player.play()
+            audioPlayer = player // keep strong reference so it isn't deallocated mid-playback
+            print("✅ Playing: \(fileName)")
         } catch {
-            print("❌ Error playing sound: \(error.localizedDescription)")
+            print("❌ Error playing sound (\(fileName)): \(error)")
         }
     }
 }
