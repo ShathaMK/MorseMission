@@ -171,8 +171,8 @@ struct StageView: View {
                                                 currentAnswerTim1 = ""
                                                 currentAnswerTim2 = ""
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                                    currentAnswerTim1 = "Actually, it all began with the Apple I."
-                                                    currentAnswerTim2 = "Uh... the first Apple product was the Macintosh, right?"
+                                                    currentAnswerTim1 = "We're bringing back the flip phone era that's all I can say for now."
+                                                    currentAnswerTim2 = "We're launching a toaster. That's all I can say for now. "
                                                 }
                                             }) {
                                                 ZStack {
@@ -180,7 +180,7 @@ struct StageView: View {
                                                         .foregroundStyle(Color("PurpleColor"))
                                                         .frame(width: 300, height: 50)
                                                         .cornerRadius(15)
-                                                    Text("What's Apple first product ?")
+                                                    Text("What's the big surprise today ?")
                                                         .font(.system(size: 20, weight: .bold, design: .rounded))
                                                         .foregroundColor(Color("FontColor"))
                                                 }
@@ -189,8 +189,8 @@ struct StageView: View {
                                                 currentAnswerTim1 = ""
                                                 currentAnswerTim2 = ""
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                                    currentAnswerTim1 = "Our latest product is the iPhone Air."
-                                                    currentAnswerTim2 = "I can't say much, but I've heard it's not like any other phone."
+                                                    currentAnswerTim1 = "I heard people lined up outside since 5 AM. Dedication."
+                                                    currentAnswerTim2 = "Pretty empty, honestly. Maybe ten people showed up."
                                                 }
                                             }) {
                                                 ZStack {
@@ -198,7 +198,7 @@ struct StageView: View {
                                                         .foregroundStyle(Color("PurpleColor"))
                                                         .frame(width: 300, height: 50)
                                                         .cornerRadius(15)
-                                                    Text("What's Apple latest product ?")
+                                                    Text("How's the crowd today?")
                                                         .font(.system(size: 20, weight: .bold, design: .rounded))
                                                         .foregroundColor(Color("FontColor"))
                                                 }
