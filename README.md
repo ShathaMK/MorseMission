@@ -70,6 +70,10 @@ Hello world, I'm **Shatha** — an iOS developer from Saudi Arabia 🇸🇦. Mor
 [![LinkedIn](https://img.shields.io/badge/Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/shatha-almukhaylid/)
 
 ---
+<a href="https://apps.apple.com/sa/app/morsemission/id6746870677">
+  <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" height="50">
+</a>
+---
 
 <div align="center">
 
