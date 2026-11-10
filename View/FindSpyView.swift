@@ -24,456 +24,59 @@ struct FindSpyView: View {
     @State private var showDialouge = false
     //@Binding var TrackScene: Scenes
 
-    
+
     let morseCode = "...   .--.   -.--"
 
+    // MARK: - PHONE: iPhone support (everything between here and `var body` is new)
+
+    private let isPhone = UIDevice.current.userInterfaceIdiom == .phone // PHONE
+
+    /// How big the UI is drawn on iPhone compared with iPad (0.6 = 60%).
+    /// Lower = smaller UI / more of the scene visible. Higher = bigger text.
+    private let phoneScale: CGFloat = 0.6 // PHONE
+
+    /// Where the sticky note sits ON THE ARTWORK (0...1 of image width / height). iPhone only.
+    /// Worked out from your iPad padding values; nudge if it isn't exactly on the object.
+    private let stickyNoteOnArt = CGPoint(x: 0.777, y: 0.572) // PHONE
+
+    /// The "design canvas" your layout is drawn on.
+    /// iPad: the real screen, no extra insets -> your original layout.
+    /// iPhone: a bigger virtual screen that is scaled down to fit.
+    private struct DesignCanvas { // PHONE
+        let size: CGSize      // canvas size in design points
+        let isPhone: Bool
+        let inset: CGFloat    // side padding so UI stays clear of the notch / Dynamic Island
+        let bottom: CGFloat   // home-indicator clearance
+    }
 
     var body: some View {
         ZStack {
             if isLandscape {
-                // Landscape - show game content
-                var currentScene = viewModel.scenes[viewModel.currentSceneIndex]
-                let dialogues = currentScene.dialogues // Get all dialogues for the current scene
-                
-                // Calculate the range for the next pair of dialogues to show
-                let startIndex = viewModel.currentDialogueIndex
-                let endIndex = min(startIndex + 1, dialogues.count - 1) // Two dialogues at a time
-                
-                
-                ZStack {
-                    // Background
-                    Image(currentScene.backgroundImage)
-                        .resizable()
-                        .frame(width: getScreenBounds().width, height: getScreenBounds().height)
-                    // Show dialogues if enabled
-                    if viewModel.isDialogueVisible{
-                        VStack{
-                            
-                      
-                           Rectangle()
-                               .frame(width: getScreenBounds().width, height: 280)  //
-                               .dialogueGlassEffect()
-                               .ignoresSafeArea(edges: .top)
-                              
-                           
-                               .overlay(){
-                                   // "Next" Button
-                                   VStack{
-                                       Button(action: {
-                                           
-                                           viewModel.nextDialogue()
-                                           if viewModel.currentDialogueIndex + 2 < dialogues.count {
-                                               viewModel.currentDialogueIndex += 1
-                                           }
-                                           else {
-                                               viewModel.hideDialogues()
-                                           }
-                                       }) {
-                                           Spacer()
-                                           Image("Next")//
-                                               .resizable()
-                                               .frame(width: 100, height: 40)
-                                           
-                                       }
-                                       .padding()
-                                       .padding(.top,20)
-                                       Spacer()
-                                       
-                                   }
-                                   
-                                   
-                                   
-                                   VStack(spacing:-20) {
-                                       Spacer()
-                                       //
-                                       
-                                       
-                                       
-                                       // Loop through the dialogues within the range of startIndex and endIndex
-                                       
-                                       ForEach(startIndex...endIndex, id: \.self) { index in
-                                           let dialogue = dialogues[index]
-                                           
-                                           HStack {
-                                               if dialogue.isRight {
-                                                   Spacer()
-                                               }
-                                               
-                                               // Character + Dialogue
-                                               HStack {
-                                                   if !dialogue.isRight {
-                                                       Image(dialogue.speakerPfp)
-                                                           .resizable()
-                                                           .frame(width: 140, height: 140)
-                                                           .padding(.trailing, 20)
-                                                   }
-                                                   
-                                                   VStack(alignment: .leading) {
-                                                       Text(dialogue.speaker)
-                                                           .font(.system(size: 20, weight: .bold, design: .rounded))
-                                                           .foregroundColor(Color("FontColor"))
-                                                           .frame(maxWidth: .infinity, alignment: .leading)
-                                                       
-                                                       ZStack(alignment: .leading) {
-                                                           Text(dialogue.text)
-                                                               .opacity(0) // Reserves space
-                                                           TypeWriterEffect(text: dialogue.text)
-                                                       }
-                                                   }
-                                                   .padding()
-                                                   .frame(width: 530, height: 100)
-                                                   .background(dialogue.bubbleColor)
-                                                   .cornerRadius(15)
-                                                   .overlay(alignment: dialogue.isRight ? .bottomTrailing : .bottomLeading) {
-                                                       Image(systemName: "arrowtriangle.down.fill")
-                                                           .font(.title)
-                                                           .rotationEffect(.degrees(dialogue.isRight ? -90 : 90))
-                                                           .offset(x: dialogue.isRight ? 15 : -15, y: -10)
-                                                           .foregroundStyle(dialogue.bubbleColor)
-                                                   }
-                                                   
-                                                   if dialogue.isRight {
-                                                       Image(dialogue.speakerPfp)
-                                                           .resizable()
-                                                           .frame(width: 140, height: 140)
-                                                           .padding(.leading, 20)
-                                                   }
-                                               }
-                                               
-                                               if !dialogue.isRight {
-                                                   Spacer()
-                                               }
-                                           }
-                                           .padding(.horizontal)
-                                       }
-                                       
-                                       //
-                                       
-                                       Spacer()
-                                   }
-                                   
-                               }
-                           Spacer()
-                       
-                            //  .padding(.bottom,200)
-                            //  Spacer()//
-                        }// end of VStack
-                    }
-                    else{
-                        ZStack{
-                            
-                            VStack{
-                                HStack{
-                                    Spacer()
-                                    if isHintVisible {
-                                        VStack(spacing:-10){
-                                            HStack{
-                                                
-                                                Text("Hint")
-                                                    .font(.title2)
-                                                    .bold()
-                                                    .padding()
-                                                    .foregroundStyle(Color(.black))
-                                                Spacer()
-                                            }
-                                            Text("Click on objects to find clues").padding(.trailing,12)
-                                            
-                                        }.frame(width:260,height: 80)
-                                            .padding()
-                                            .background(Color("YellowColor"))
-                                            .cornerRadius(15)
-                                        Image(systemName: "arrowtriangle.down.fill")
-                                            .font(.title)
-                                            .rotationEffect(.degrees(-90))
-                                            .offset(x:-15,y:10)
-                                            .foregroundStyle(Color("YellowColor"))
-                                    }
-                                    // Spacer()
-                                    Button(action:{
-                                        isHintVisible.toggle()
-                                    }){
-                                        Image(systemName: "lightbulb.max.fill")
-                                            .resizable()
-                                            .frame(width:60,height: 60)
-                                            .foregroundStyle(Color("YellowColor"))
-                                        
-                                    }
-                                }
-                                Spacer()
-                            }.padding()
-                            Spacer()
-                            Spacer()
-                            
-                            Button(action:{
-                                isClueFound.toggle()
-                                SoundManager.shared.playSound(named: "StickyNote")
-                            }){
-                                Image("StickyNote").resizable().frame(width: 35,height: 30)
-                            }.padding(.top,121)
-                                .padding(.leading,660)
-                            if isClueFound{
-                                Rectangle()
-                                    .frame(width:440,height: 440)
-                                    .foregroundStyle(Color("GreenColor"))
-                                    .overlay(){
-                                        VStack{
-                                            Text("Decode the message")
-                                                .font(.system(size: 25, weight: .bold, design: .rounded))
-                                            Button(action: {
-                                                TranslatorViewModel.morseText = morseCode // Set the Morse code to be decoded
-                                                TranslatorViewModel.decodeMorseCode() // Call decoding function
-                                                TranslatorViewModel.playTranslation() // Play the decoded message
-                                                //                                    viewModel.playSound(for: letter.soundFile.wrappedValue)
-                                                //                                    print("Speaker button tapped for \(letter)")
-                                            }) {
-                                                Image(systemName: "speaker.wave.3.fill")
-                                                    .resizable()
-                                                    .frame(width: 55, height: 35)
-                                                    .foregroundColor(Color("PurpleColor"))
-                                                    .padding(11) // Increase padding for easier tap area
-                                                // .background(Color("WhiteGrayColor").opacity(0.1)) // Subtle background for button
-                                                    .cornerRadius(15) // Rounded corners for the button
-                                                    .shadow(radius: 5) // Optional: subtle shadow to make the button pop
-                                            }
-                                            Text("...  .--.  -.--")
-                                                .font(.system(size:40, weight: .bold ,design: .rounded))
-                                            //.foregroundStyle(Color("FontColor"))
-                                            //    .frame(width: 120, height: 45, alignment: .bottom)
-                                            //                                    if isSelected{
-                                            //                                        alertText = "Correct answer ,you unlocked the first clue."
-                                            //                                    }
-                                            //                                    else{
-                                            //                                        alertText = "Incorrect answer , try again."
-                                            //                                    }
-                                            SelectButton(isSelected: $isSelected, color:.red , text: "SOS")
-                                                .onTapGesture {
-                                                    isSelected.toggle()
-                                                    if isSelected{
-                                                        // So one button selected at a time
-                                                        isSelected2 = false
-                                                        isSelected3 = false
-                                                    }
-                                                    checkAnswer()
-                                                }
-                                            SelectButton(isSelected: $isSelected2, color: Color("PurpleColor") , text: "Spy")
-                                                .onTapGesture {
-                                                    
-                                                    isSelected2.toggle()
-                                                    if isSelected2{
-                                                        // So one button selected at a time
-                                                        isSelected = false
-                                                        isSelected3 = false
-                                                    }
-                                                    checkAnswer()
-                                                }
-                                            SelectButton(isSelected: $isSelected3, color: .red , text: "Cat")
-                                                .onTapGesture {
-                                                    isSelected3.toggle()
-                                                    if isSelected3{
-                                                        // So one button selected at a time
-                                                        isSelected = false
-                                                        isSelected2 = false
-                                                    }
-                                                    checkAnswer()
-                                                }
-                                            
-                                            
-                                        }
-                                        .alert(isPresented: $showAlert) {
-                                            // Alert displayed with result
-                                            Alert(title: Text("Result"), message: Text(alertText), dismissButton: .default(Text("OK")) {
-                                                // When alert is dismissed, check if the answer was correct and show the result text
-                                                if isSelected2 {
-                                                    showDialouge = true
-                                                }
-                                            })
-                                        }
-                                    }
-                            }
-                            
-                        }
-                        
-                        
-                        //
-                    }
-                    if moveOn {
-                        if showDialouge{
-                            VStack{
-                          
-                                Rectangle()
-                                    .frame(width: getScreenBounds().width, height: 238)  // Same as LoungeView
-                                    .dialogueGlassEffect()
-                                    .ignoresSafeArea(edges: .top)
+                if isPhone { // PHONE
+                    phoneLandscape // PHONE
+                } else { // PHONE
+                    // iPad - your original layout, unchanged
+                    landscapeContent(DesignCanvas( // PHONE (your landscape code moved into landscapeContent below)
+                        size: CGSize(width: getScreenBounds().width, height: getScreenBounds().height),
+                        isPhone: false, inset: 0, bottom: 0))
+                        .navigationBarHidden(true)
+                        .background(Color.black.ignoresSafeArea())
+                } // PHONE
 
-                                    .overlay(){
-                                        ZStack() {
-                                            
-                                            //                                        Button(action: viewModel.nextDialogue){
-                                            //                                            Spacer()
-                                            //                                            Image("Next").resizable()
-                                            //                                                .frame(width: 100, height: 40)
-                                            //
-                                            //                                        }.padding()
-                                            //                                            .padding(.bottom,120)
-                                            Spacer()
-                                            HStack {
-                                                
-                                                HStack{
-                                                    
-                                                    Image("SparkProfile")
-                                                        .resizable()
-                                                        .frame(width: 140, height: 140)
-                                                        .padding(.trailing,20)
-                                                    
-                                                    HStack{
-                                                        
-                                                        VStack{
-                                                            
-                                                            Text("Detective Spark")
-                                                                .font(.system(size: 20, weight:
-                                                                        .bold, design: .rounded))
-                                                                .foregroundColor(Color("FontColor"))
-                                                                .padding(.trailing, 7)
-                                                            
-                                                            
-                                                            ZStack(alignment: .leading) {
-                                                                Text("Okay… that's creepy.")
-                                                                    .opacity(0) // Keeps space reserved to prevent movement
-                                                                TypeWriterEffect(text: "Okay… that's creepy.")
-                                                            }
-                                                            
-                                                        }
-                                                        //
-                                                        //   .padding()
-                                                        // .padding(.trailing,60)
-                                                        .frame(width:230,height:100)
-                                                        
-                                                        
-                                                    }
-                                                    .background(Color("PurpleColor"))
-                                                    .cornerRadius(15)
-                                                    .overlay(alignment: .bottomLeading){
-                                                        Image(systemName:"arrowtriangle.down.fill")
-                                                            .font(.title)
-                                                            .rotationEffect(.degrees(90))
-                                                            .offset(x: -15, y: -10)
-                                                            .foregroundStyle(Color("PurpleColor"))
-                                                    }
-                                                    
-                                                    
-                                                }
-                                                Spacer()
-                                            }.padding()
-                                            
-                                            HStack{
-                                                
-                                                Spacer()
-                                                
-                                                HStack{
-                                                    
-                                                    
-                                                    VStack{
-                                                        
-                                                        Text("Detective Flash")
-                                                            .font(.system(size: 20, weight:
-                                                                    .bold, design: .rounded))
-                                                            .foregroundColor(Color("FontColor"))
-                                                            .padding(.trailing,360)
-                                                        
-                                                        ZStack(alignment: .leading) {
-                                                            Text("Someone wanted us to find this. We need to get to the lounge—maybe someone there knows more.")
-                                                                .opacity(0) // Keeps space reserved to prevent movement
-                                                            TypeWriterEffect(text:" Someone wanted us to find this. We need to get to the lounge—maybe someone\nthere knows more.")
-                                                        }
-                                                        //  Spacer()
-                                                        
-                                                        
-                                                        
-                                                    }
-                                                    .padding()
-                                                    //  .padding(.trailing,0)
-                                                    .frame(width:550,height:100)
-                                                    
-                                                }//
-                                                .background(Color("DarkGrayColor"))
-                                                .cornerRadius(15)
-                                                .overlay(alignment: .bottomLeading){
-                                                    Image(systemName:"arrowtriangle.down.fill")
-                                                        .font(.title)
-                                                        .rotationEffect(.degrees(-90))
-                                                        .offset(x: 240, y: -10)
-                                                        .foregroundStyle(Color("DarkGrayColor"))
-                                                    
-                                                    //
-                                                }
-                                                Image("FlashProfile")
-                                                    .resizable()
-                                                    .frame(width: 140, height: 140)
-                                                    .padding(.leading,20)
-                                            }.padding(.top,90)
-                                                .padding()
-                                            //
-                                        }
-                                    }
-                                Spacer()
-                            }// end of VStack
-                 
-                                VStack{
-                                    Spacer()
-                                    HStack{
-                                        Spacer()
-                                        //
-                                        NavigationLink(destination: LoungeView(viewModel: viewModel)
-                                            .onAppear {
-                                                
-                                                viewModel.moveToScene(index: 1)
-                                                
-                                            }){
-                                                
-                                                //   currentScene = 2 // Move to Scene 2
-                                                
-                                                
-                                                ZStack{
-                                                    Rectangle().foregroundStyle(Color("PurpleColor"))
-                                                        .frame(width:150,height: 50)
-                                                        .cornerRadius(15)
-                                                    
-                                                    Text("Go to Lounge") .font(.system(size: 20, weight: .bold, design: .rounded))
-                                                        .foregroundColor(Color("FontColor"))
-                                                    
-                                                    
-                                                    
-                                                }
-                                                
-                                            }
-                                            
-                                            .padding()
-                                    }
-                                    
-                                }
-                         
-                        }
-                       
-                    }
-                    //
-                }
-                .navigationBarHidden(true)
-                .background(Color.black.ignoresSafeArea())
-                
             } else {
                 // Portrait - show rotation prompt
                 Color.black.ignoresSafeArea()
-                
+
                 VStack(spacing: 30) {
                     Text("Please Rotate Your Device")
                         .font(.system(size: 28, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
-                    
+
                     Text("This game is designed for landscape mode")
                         .font(.system(size: 18, weight: .medium, design: .rounded))
                         .foregroundColor(.gray)
                         .padding(.horizontal, 40)
-                    
+
                     Image(systemName: "rectangle.portrait.rotate")
                         .font(.system(size: 80))
                         .foregroundColor(Color("PurpleColor"))
@@ -484,12 +87,12 @@ struct FindSpyView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
             let newOrientation = UIDevice.current.orientation
-            
+
             // IGNORE flat positions - keep current state
             if newOrientation == .faceUp || newOrientation == .faceDown || newOrientation == .unknown {
                 return
             }
-            
+
             // Only update for valid rotations
             if newOrientation == .landscapeLeft || newOrientation == .landscapeRight {
                 isLandscape = true
@@ -502,20 +105,521 @@ struct FindSpyView: View {
             if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
                 isLandscape = scene.interfaceOrientation.isLandscape
             }
-            
+
             // Start rotation animation for prompt
             withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
                 isAnimating = true
             }
         }
     }
-    
+
+    // MARK: - PHONE: draw the iPad layout on a bigger canvas, then shrink it to fit
+
+    private var phoneLandscape: some View { // PHONE
+        GeometryReader { geo in
+            let ins = geo.safeAreaInsets
+            let fullW = geo.size.width + ins.leading + ins.trailing   // true screen size
+            let fullH = geo.size.height + ins.top + ins.bottom
+            // never go below a 1194pt-wide canvas, so everything that fits an 11" iPad fits here
+            let s = min(phoneScale, fullW / 1194)
+
+            let canvas = DesignCanvas(
+                size: CGSize(width: fullW / s, height: fullH / s),
+                isPhone: true,
+                inset: max(ins.leading, ins.trailing) / s,
+                bottom: ins.bottom / s)
+
+            landscapeContent(canvas)
+                .frame(width: canvas.size.width, height: canvas.size.height)
+                .scaleEffect(s, anchor: .topLeading)
+                .frame(width: fullW, height: fullH, alignment: .topLeading)
+                .offset(x: -ins.leading, y: -ins.top)
+        } // end of GeometryReader
+        .navigationBarHidden(true)
+        .background(Color.black.ignoresSafeArea())
+    } // end of phoneLandscape
+
+    // MARK: - PHONE: sticky note helpers
+
+    private func stickyNoteButton() -> some View { // PHONE (your original sticky note button, moved here)
+        Button(action:{
+            isClueFound.toggle()
+            SoundManager.shared.playSound(named: "StickyNote")
+        }){
+            Image("StickyNote").resizable().frame(width: 35,height: 30)
+        }
+    }
+
+    /// Position of the sticky note on screen, following the artwork when it is cropped to fill the iPhone screen.
+    private func stickyNotePosition(_ L: DesignCanvas, background: String) -> CGPoint { // PHONE
+        let w = L.size.width
+        let h = L.size.height
+        guard let img = UIImage(named: background), img.size.width > 0, img.size.height > 0 else {
+            return CGPoint(x: w * stickyNoteOnArt.x, y: h * stickyNoteOnArt.y)
+        }
+        let fill = max(w / img.size.width, h / img.size.height)
+        let renderedW = img.size.width * fill
+        let renderedH = img.size.height * fill
+        return CGPoint(x: (w - renderedW) / 2 + renderedW * stickyNoteOnArt.x,
+                       y: (h - renderedH) / 2 + renderedH * stickyNoteOnArt.y)
+    }
+
+    // MARK: - Your original landscape layout (moved out of body so iPad and iPhone share it)
+
+    @ViewBuilder
+    private func landscapeContent(_ L: DesignCanvas) -> some View { // PHONE (was inline in body)
+        // Landscape - show game content
+        let currentScene = viewModel.scenes[viewModel.currentSceneIndex]
+        let dialogues = currentScene.dialogues // Get all dialogues for the current scene
+
+        // Calculate the range for the next pair of dialogues to show
+        let startIndex = viewModel.currentDialogueIndex
+        let endIndex = min(startIndex + 1, dialogues.count - 1) // Two dialogues at a time
+
+
+        ZStack {
+            // Background
+            if L.isPhone { // PHONE: crop to fill instead of stretching
+                Image(currentScene.backgroundImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: L.size.width, height: L.size.height)
+                    .clipped()
+            } else { // iPad: your original
+                Image(currentScene.backgroundImage)
+                    .resizable()
+                    .frame(width: L.size.width, height: L.size.height) // PHONE: was getScreenBounds()
+            }
+            // Show dialogues if enabled
+            if viewModel.isDialogueVisible{
+                VStack{
+
+
+                   Rectangle()
+                       .frame(width: L.size.width, height: 280)  // PHONE: was getScreenBounds().width
+                       .dialogueGlassEffect()
+                       .ignoresSafeArea(edges: .top)
+
+
+                       .overlay(){
+                           // "Next" Button
+                           VStack{
+                               Button(action: {
+
+                                   viewModel.nextDialogue()
+                                   if viewModel.currentDialogueIndex + 2 < dialogues.count {
+                                       viewModel.currentDialogueIndex += 1
+                                   }
+                                   else {
+                                       viewModel.hideDialogues()
+                                   }
+                               }) {
+                                   Spacer()
+                                   Image("Next")//
+                                       .resizable()
+                                       .frame(width: 100, height: 40)
+
+                               }
+                               .padding()
+                               .padding(.top,20)
+                               Spacer()
+
+                           }
+                           .padding(.horizontal, L.inset) // PHONE
+
+
+
+                           VStack(spacing:-20) {
+                               Spacer()
+                               //
+
+
+
+                               // Loop through the dialogues within the range of startIndex and endIndex
+
+                               ForEach(startIndex...endIndex, id: \.self) { index in
+                                   let dialogue = dialogues[index]
+
+                                   HStack {
+                                       if dialogue.isRight {
+                                           Spacer()
+                                       }
+
+                                       // Character + Dialogue
+                                       HStack {
+                                           if !dialogue.isRight {
+                                               Image(dialogue.speakerPfp)
+                                                   .resizable()
+                                                   .frame(width: 140, height: 140)
+                                                   .padding(.trailing, 20)
+                                           }
+
+                                           VStack(alignment: .leading) {
+                                               Text(dialogue.speaker)
+                                                   .font(.system(size: L.isPhone ? 24 : 20, weight: .bold, design: .rounded)) // PHONE: 24 on iPhone
+                                                   .foregroundColor(Color("FontColor"))
+                                                   .frame(maxWidth: .infinity, alignment: .leading)
+
+                                               ZStack(alignment: .leading) {
+                                                   Text(dialogue.text)
+                                                       .opacity(0) // Reserves space
+                                                   TypeWriterEffect(text: dialogue.text)
+                                               }
+                                           }
+                                           .padding()
+                                           .frame(width: 530, height: 100)
+                                           .background(dialogue.bubbleColor)
+                                           .cornerRadius(15)
+                                           .overlay(alignment: dialogue.isRight ? .bottomTrailing : .bottomLeading) {
+                                               Image(systemName: "arrowtriangle.down.fill")
+                                                   .font(.title)
+                                                   .rotationEffect(.degrees(dialogue.isRight ? -90 : 90))
+                                                   .offset(x: dialogue.isRight ? 15 : -15, y: -10)
+                                                   .foregroundStyle(dialogue.bubbleColor)
+                                           }
+
+                                           if dialogue.isRight {
+                                               Image(dialogue.speakerPfp)
+                                                   .resizable()
+                                                   .frame(width: 140, height: 140)
+                                                   .padding(.leading, 20)
+                                           }
+                                       }
+
+                                       if !dialogue.isRight {
+                                           Spacer()
+                                       }
+                                   }
+                                   .padding(.horizontal)
+                               }
+
+                               //
+
+                               Spacer()
+                           }
+                           .padding(.horizontal, L.inset) // PHONE
+
+                       }
+                   Spacer()
+
+                    //  .padding(.bottom,200)
+                    //  Spacer()//
+                }// end of VStack
+            }
+            else{
+                ZStack{
+
+                    VStack{
+                        HStack{
+                            Spacer()
+                            if isHintVisible {
+                                VStack(spacing:-10){
+                                    HStack{
+
+                                        Text("Hint")
+                                            .font(.title2)
+                                            .bold()
+                                            .padding()
+                                            .foregroundStyle(Color(.black))
+                                        Spacer()
+                                    }
+                                    Text("Click on objects to find clues").padding(.trailing,12)
+
+                                }.frame(width:260,height: 80)
+                                    .padding()
+                                    .background(Color("YellowColor"))
+                                    .cornerRadius(15)
+                                Image(systemName: "arrowtriangle.down.fill")
+                                    .font(.title)
+                                    .rotationEffect(.degrees(-90))
+                                    .offset(x:-15,y:10)
+                                    .foregroundStyle(Color("YellowColor"))
+                            }
+                            // Spacer()
+                            Button(action:{
+                                isHintVisible.toggle()
+                            }){
+                                Image(systemName: "lightbulb.max.fill")
+                                    .resizable()
+                                    .frame(width:60,height: 60)
+                                    .foregroundStyle(Color("YellowColor"))
+
+                            }
+                        }
+                        Spacer()
+                    }.padding()
+                    .padding(.horizontal, L.inset) // PHONE
+                    Spacer()
+                    Spacer()
+
+                    if L.isPhone { // PHONE: pinned to the same spot of the artwork, with a bigger tap area
+                        stickyNoteButton()
+                            .padding(16)
+                            .contentShape(Rectangle())
+                            .position(stickyNotePosition(L, background: currentScene.backgroundImage))
+                    } else { // iPad: your original
+                        stickyNoteButton()
+                            .padding(.top,121)
+                            .padding(.leading,660)
+                    }
+                    if isClueFound{
+                        Rectangle()
+                            .frame(width:440,height: 440)
+                            .foregroundStyle(Color("GreenColor"))
+                            .overlay(){
+                                VStack{
+                                    Text("Decode the message")
+                                        .font(.system(size: 25, weight: .bold, design: .rounded))
+                                    Button(action: {
+                                        TranslatorViewModel.morseText = morseCode // Set the Morse code to be decoded
+                                        TranslatorViewModel.decodeMorseCode() // Call decoding function
+                                        TranslatorViewModel.playTranslation() // Play the decoded message
+                                        //                                    viewModel.playSound(for: letter.soundFile.wrappedValue)
+                                        //                                    print("Speaker button tapped for \(letter)")
+                                    }) {
+                                        Image(systemName: "speaker.wave.3.fill")
+                                            .resizable()
+                                            .frame(width: 55, height: 35)
+                                            .foregroundColor(Color("PurpleColor"))
+                                            .padding(11) // Increase padding for easier tap area
+                                        // .background(Color("WhiteGrayColor").opacity(0.1)) // Subtle background for button
+                                            .cornerRadius(15) // Rounded corners for the button
+                                            .shadow(radius: 5) // Optional: subtle shadow to make the button pop
+                                    }
+                                    Text("...  .--.  -.--")
+                                        .font(.system(size:40, weight: .bold ,design: .rounded))
+                                    //.foregroundStyle(Color("FontColor"))
+                                    //    .frame(width: 120, height: 45, alignment: .bottom)
+                                    //                                    if isSelected{
+                                    //                                        alertText = "Correct answer ,you unlocked the first clue."
+                                    //                                    }
+                                    //                                    else{
+                                    //                                        alertText = "Incorrect answer , try again."
+                                    //                                    }
+                                    SelectButton(isSelected: $isSelected, color:.red , text: "SOS")
+                                        .onTapGesture {
+                                            isSelected.toggle()
+                                            if isSelected{
+                                                // So one button selected at a time
+                                                isSelected2 = false
+                                                isSelected3 = false
+                                            }
+                                            checkAnswer()
+                                        }
+                                    SelectButton(isSelected: $isSelected2, color: Color("PurpleColor") , text: "Spy")
+                                        .onTapGesture {
+
+                                            isSelected2.toggle()
+                                            if isSelected2{
+                                                // So one button selected at a time
+                                                isSelected = false
+                                                isSelected3 = false
+                                            }
+                                            checkAnswer()
+                                        }
+                                    SelectButton(isSelected: $isSelected3, color: .red , text: "Cat")
+                                        .onTapGesture {
+                                            isSelected3.toggle()
+                                            if isSelected3{
+                                                // So one button selected at a time
+                                                isSelected = false
+                                                isSelected2 = false
+                                            }
+                                            checkAnswer()
+                                        }
+
+
+                                }
+                                .alert(isPresented: $showAlert) {
+                                    // Alert displayed with result
+                                    Alert(title: Text("Result"), message: Text(alertText), dismissButton: .default(Text("OK")) {
+                                        // When alert is dismissed, check if the answer was correct and show the result text
+                                        if isSelected2 {
+                                            showDialouge = true
+                                        }
+                                    })
+                                }
+                            }
+                    }
+
+                }
+
+
+                //
+            }
+            if moveOn {
+                if showDialouge{
+                    VStack{
+
+                        Rectangle()
+                            .frame(width: L.size.width, height: 238)  // PHONE: was getScreenBounds().width  // Same as LoungeView
+                            .dialogueGlassEffect()
+                            .ignoresSafeArea(edges: .top)
+
+                            .overlay(){
+                                ZStack() {
+
+                                    //                                        Button(action: viewModel.nextDialogue){
+                                    //                                            Spacer()
+                                    //                                            Image("Next").resizable()
+                                    //                                                .frame(width: 100, height: 40)
+                                    //
+                                    //                                        }.padding()
+                                    //                                            .padding(.bottom,120)
+                                    Spacer()
+                                    HStack {
+
+                                        HStack{
+
+                                            Image("SparkProfile")
+                                                .resizable()
+                                                .frame(width: 140, height: 140)
+                                                .padding(.trailing,20)
+
+                                            HStack{
+
+                                                VStack{
+
+                                                    Text("Detective Spark")
+                                                        .font(.system(size: 20, weight:
+                                                                .bold, design: .rounded))
+                                                        .foregroundColor(Color("FontColor"))
+                                                        .padding(.trailing, 7)
+
+
+                                                    ZStack(alignment: .leading) {
+                                                        Text("Okay… that's creepy.")
+                                                            .opacity(0) // Keeps space reserved to prevent movement
+                                                        TypeWriterEffect(text: "Okay… that's creepy.")
+                                                    }
+
+                                                }
+                                                //
+                                                //   .padding()
+                                                // .padding(.trailing,60)
+                                                .frame(width:230,height:100)
+
+
+                                            }
+                                            .background(Color("PurpleColor"))
+                                            .cornerRadius(15)
+                                            .overlay(alignment: .bottomLeading){
+                                                Image(systemName:"arrowtriangle.down.fill")
+                                                    .font(.title)
+                                                    .rotationEffect(.degrees(90))
+                                                    .offset(x: -15, y: -10)
+                                                    .foregroundStyle(Color("PurpleColor"))
+                                            }
+
+
+                                        }
+                                        Spacer()
+                                    }.padding()
+                                    .padding(.horizontal, L.inset) // PHONE
+
+                                    HStack{
+
+                                        Spacer()
+
+                                        HStack{
+
+
+                                            VStack{
+
+                                                Text("Detective Flash")
+                                                    .font(.system(size: 20, weight:
+                                                            .bold, design: .rounded))
+                                                    .foregroundColor(Color("FontColor"))
+                                                    .padding(.trailing,360)
+
+                                                ZStack(alignment: .leading) {
+                                                    Text("Someone wanted us to find this. We need to get to the lounge—maybe someone there knows more.")
+                                                        .opacity(0) // Keeps space reserved to prevent movement
+                                                    TypeWriterEffect(text:" Someone wanted us to find this. We need to get to the lounge—maybe someone\nthere knows more.")
+                                                }
+                                                //  Spacer()
+
+
+
+                                            }
+                                            .padding()
+                                            //  .padding(.trailing,0)
+                                            .frame(width:550,height:100)
+
+                                        }//
+                                        .background(Color("DarkGrayColor"))
+                                        .cornerRadius(15)
+                                        .overlay(alignment: .bottomLeading){
+                                            Image(systemName:"arrowtriangle.down.fill")
+                                                .font(.title)
+                                                .rotationEffect(.degrees(-90))
+                                                .offset(x: 240, y: -10)
+                                                .foregroundStyle(Color("DarkGrayColor"))
+
+                                            //
+                                        }
+                                        Image("FlashProfile")
+                                            .resizable()
+                                            .frame(width: 140, height: 140)
+                                            .padding(.leading,20)
+                                    }.padding(.top,90)
+                                        .padding()
+                                        .padding(.horizontal, L.inset) // PHONE
+                                    //
+                                }
+                            }
+                        Spacer()
+                    }// end of VStack
+
+                    VStack{
+                        Spacer()
+                        HStack{
+                            Spacer()
+                            //
+                            NavigationLink(destination: LoungeView(viewModel: viewModel)
+                                .onAppear {
+
+                                    viewModel.moveToScene(index: 1)
+
+                                }){
+
+                                    //   currentScene = 2 // Move to Scene 2
+
+
+                                    ZStack{
+                                        Rectangle().foregroundStyle(Color("PurpleColor"))
+                                            .frame(width:150,height: 50)
+                                            .cornerRadius(15)
+
+                                        Text("Go to Lounge") .font(.system(size: 20, weight: .bold, design: .rounded))
+                                            .foregroundColor(Color("FontColor"))
+
+
+
+                                    }
+
+                                }
+
+                                .padding()
+                                .padding(.trailing, L.inset) // PHONE
+                                .padding(.bottom, L.bottom) // PHONE
+                        }
+
+                    }
+
+                }
+
+            }
+            //
+        }
+    } // end of landscapeContent
+
     private func checkAnswer() {
         if isSelected2 { // Spy is the correct answer
             SoundManager.shared.playSound(named: "correct")
             alertText = "Correct answer! \nYou unlocked the first clue."
             moveOn = true
-           
+
         } else {
             SoundManager.shared.playSound(named: "incorrect")
             alertText = "Incorrect answer \n Please try again."
@@ -523,8 +627,3 @@ struct FindSpyView: View {
         showAlert = true // Show the alert
     }
 }
-           // }
-            //
-          
-          //
-        //
